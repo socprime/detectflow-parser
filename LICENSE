@@ -1,52 +1,116 @@
-DetectFlow End User License Agreement
 
-Introduction
-This DetectFlow End User License Agreement (“EULA”, “Agreement”) is a binding legal agreement between you, either as an individual (“User”) and SOC Prime Inc., a Delaware corporation, having a principal place of business at: 399 Boylston Street, 6th Floor, Boston, MA 02116, USA and its affiliates and subsidiaries (collectively, “SOC Prime”, “Company”, “we”, “us” and “our”). Please read this Agreement carefully before you use the Software.
-SOC Prime makes the Software (as described below) available to you subject to the terms and conditions of this EULA.
-By installing, copying, downloading, accessing, or otherwise using the Software, or by clicking a box indicating your acceptance, you acknowledge that you have read, understood, and agree to be bound by this EULA on behalf of yourself and any entity or individual you represent, or for whose device you acquire the Software (collectively, “User,” “you,” or “your”). 
-You represent and warrant to us that you have the full right, power and authority to access and use the Software and, to the extent necessary, that you have obtained all necessary corporate or other authorizations or consents to access and use the Software. Thus, if you are an individual (e.g., employee or consultant) acting on behalf of an organization, you represent and warrant that you have obtained all necessary authorizations or consents (i.e., you must be an authorized representative) to accept this EULA on behalf of such organization so that, in addition to yourself, such organization is bound by the EULA.
-IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, DO NOT INSTALL, COPY, DOWNLOAD, ACCESS, OR OTHERWISE USE THE SOFTWARE.
+Copyright (c) 2026 SOC Prime, Inc. 
 
-Software and License
-DetectFlow Software (“Software”) is a specialized cybersecurity solution designed to detect cyber threats and vulnerabilities, facilitate secure data exchange with multiple data points and company APIs, and allow users to define, adjust, and automate workflows for efficient management of cybersecurity operations and incident response.
-The Software is provided solely for internal testing and evaluation purposes. The Software, including all source code, object code, algorithms, designs, documentation, and any other components or derivative works, may not be copied, redistributed, published,  disclosed, or used for any purpose by any third party without our prior written consent. 
-Subject to the terms and conditions of this EULA, SOC Prime hereby grants you during the applicable subscription term a non-exclusive, non-transferable, non-sublicensable, royalty-free, fully paid-up, limited license to access and use the Software solely for the User’s internal use. As between SOC Prime and User, SOC Prime (or its licensors) owns all right, title, and interest in and to the Software, including all intellectual property rights therein (such as copyrights, patents, trademarks, trade secrets, and other proprietary rights), whether registered or unregistered, and regardless of jurisdiction. The Software is protected by applicable copyright laws, international treaties, and other intellectual property laws.
-User is granted only the limited rights expressly set forth in this EULA and acquires no ownership, title, or other interest in the Software. SOC Prime reserves all rights not expressly granted herein, and no rights shall be deemed granted by implication, estoppel, or otherwise.
-SOC Prime welcomes suggestions, comments or other feedback about Software (e.g., regarding their utility, feasibility, bug-fixes), as well as any enhancements you would like to see in future versions ("Feedback"). You agree that all Feedback is and will be given entirely voluntarily and be non-confidential for SOC Prime. SOC Prime shall be free to use such information on an unrestricted basis.
+Licensed under the EUPL for non-commercial use
+-----------------------------------------------------------------
+This SOC Prime DetectFlow software (“Software”) is made available under a dual licensing model: (i) European Union Public License, version 1.2 and (ii) SOC Prime Commercial License. Depending on your intended use, you must choose one of the two licenses described below. By acquiring, downloading, installing, copying, or otherwise using this Software, you confirm that you have read, understood, and agreed to the terms of the applicable license.
 
-Intellectual Property Rights
-User retains all rights to its own data. All rights, title, and interest in Software, including software, orchestration logic, and mapping algorithms, remain with the Company. User retains ownership of its raw data, any detections or rules authored by User, and Sigma-mapped outputs derived from the User’s data. The rules and other content from the Threat Detection Marketplace are licensed under separate terms of the Detection Rule License 1.1 below, as well as other licenses accompanying the related content. Before using the Content, please carefully read the terms of the license attached to the Content so that the use of the Content complies with the license requirements. Unless otherwise stated, Threat Detection Marketplace  content will be licensed under the Detection Rule License 1.1 by default:
-“Detection Rule License (DRL) 1.1
-Permission is hereby granted, free of charge, to any person obtaining a copy of this rule set and associated documentation files (the "Rules"), to deal in the Rules without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Rules, and to permit persons to whom the Rules are furnished to do so, subject to the following conditions:
-If you share the Rules (including in modified form), you must retain the following if it is supplied within the Rules:
-1. identification of the authors(s) ("author" field) of the Rule and any others designated to receive attribution, in any reasonable manner requested by the Rule author (including by pseudonym if designated).
-2. a URI or hyperlink to the Rule set or explicit Rule to the extent reasonably practicable
-3. indicate the Rules are licensed under this Detection Rule License, and include the text of, or the URI or hyperlink to, this Detection Rule License to the extent reasonably practicable
-If you use the Rules (including in modified form) on data, messages based on matches with the Rules must retain the following if it is supplied within the Rules:
-1. identification of the authors(s) ("author" field) of the Rule and any others designated to receive attribution, in any reasonable manner requested by the Rule author (including by pseudonym if designated).
-THE RULES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE RULES OR THE USE OR OTHER DEALINGS IN THE RULES.”
+Non-commercial use
+If you intend to use, study, modify, or distribute this Software for non-commercial purposes, you may do so under the terms of the European Union Public License, version 1.2 (“EUPL v1.2”), a copy of which is available at: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12 and in Exhibit A below.
+Non-commercial use means use that is not primarily intended for, or directed toward, commercial advantage or monetary compensation. This includes personal projects, academic research, educational purposes, and use by registered non-profit organizations in furtherance of their non-commercial mission. Under the EUPL v1.2, you are free to use, modify, and distribute this Software and derivative works, provided that all such distributions are made under the same or a compatible license, as defined in the EUPL v1.2 Appendix, and that all copyright and attribution notices are preserved.
+If you are uncertain whether your intended use qualifies as non-commercial, please contact us at legal@socprime.com before proceeding.
+To the extent permitted by applicable law, this Software is provided "as is," without warranty of any kind, express or implied. Please refer to the full text of the EUPL v1.2 for the complete warranty and liability provisions applicable to non-commercial users.
+Commercial use
+If you intend to use this Software, in whole or in part, for commercial purposes, including but not limited to integrating it into a commercial product or service, using it in a production environment operated for profit, offering it as part of a paid offering, or using it internally within a for-profit organization in connection with revenue-generating activities, you must obtain a separate SOC Prime Commercial License from SOC Prime, Inc.
+Using this Software for commercial purposes without a valid Commercial License is a violation of copyright law and the terms of this notice.
+To inquire about or obtain a Commercial License, please contact: sales@socprime.com.
+The Commercial License will be set out in a separate written agreement and may include terms governing the scope of permitted use, fees, support obligations, warranties, and liability.
+Contributions
+All contributions to this software are subject to a Contributor License Agreement (“CLA”). By submitting a contribution, you represent that you have the right to grant, and do hereby grant, to SOC Prime, Inc. a perpetual, worldwide, irrevocable, royalty-free license to use, reproduce, modify, sublicense, and distribute your contribution under any license, including licenses other than the EUPL v1.2. The EUPL v1.2 license for non-commercial users is unaffected by this grant.
+No contribution will be accepted without prior execution of the CLA. Please contact legal@socprime.com to obtain the CLA before submitting contributions.
+General
+The copyright holder reserves the right to offer this Software under additional or different license terms in the future. No such change will retroactively affect licenses already validly granted. This dual license notice does not constitute a waiver of any intellectual property rights held by SOC Prime, Inc.
+    
+—----- end of the copyright notice —---
 
-Use Restrictions         
-Unless you have a prior written permission from us or as expressly permitted herein, you agree not to: (i) reverse engineer, decompile, decrypt, disassemble or otherwise reduce Software or any portion thereof, in either case, that has not been licensed in source code form by SOC Prime, to human-readable form except and only to the extent any such restriction is prohibited by applicable law; (ii) prepare any derivative works from, modify, copy or use the Software in any manner; (iv) transfer, sell, rent, lease, distribute, sublicense, loan or use Software in whole or in part for resale, white-label services, or providing services to third parties (including MSSP) without a separate written agreement; (v) use Software for providing time-sharing services, any software-as-a-service offering (“SaaS”), service bureau services, application service provider services, or any similar outsourced or hosted service to third parties; (vi) alter or remove any marks and notices in Software; (vii) make available to any third party any analysis of the results of operation of Software, including benchmarking results; (viii) to interfere or attempt to interfere with the proper operation of the Software or any activities conducted through the Software; or (ix) use Software data to train external AI models. SOC Prime reserves the right (without limiting any other remedies) to suspend or terminate access and use rights for any violation of these restrictions.
 
-Disclaimer of Warranties and Limitation of Liability
-YOU USE THE SOFTWARE AT YOUR OWN RISK. THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY OF ANY KIND. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, SOC PRIME AND ITS AFFILIATES, SUPPLIERS, LICENSORS, AND RESELLERS DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
-WITHOUT LIMITING THE FOREGOING, SOC PRIME MAKES NO WARRANTY OR REPRESENTATION THAT: (i) THE SOFTWARE WILL MEET YOUR REQUIREMENTS; (ii) ACCESS TO OR USE OF THE SOFTWARE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE; (iii) THE QUALITY OF THE SOFTWARE OR ANY RESULTS OBTAINED THEREFROM WILL MEET YOUR EXPECTATIONS; OR (iv) ANY ERRORS OR DEFECTS IN THE SOFTWARE WILL BE CORRECTED.
-IN NO EVENT SHALL SOC PRIME, ITS AFFILIATES, SUPPLIERS, LICENSORS, OR RESELLERS BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, BUSINESS INTERRUPTION, LOSS OF DATA, OR LOSS OF GOODWILL), ARISING OUT OF OR IN CONNECTION WITH THE USE OF OR INABILITY TO USE THE SOFTWARE, OR THE PROVISION OF OR FAILURE TO PROVIDE SUPPORT SERVICES, WHETHER BASED IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-NOTWITHSTANDING ANYTHING TO THE CONTRARY HEREIN, THE MAXIMUM AGGREGATE LIABILITY OF SOC PRIME, ITS AFFILIATES, SUPPLIERS, LICENSORS, AND RESELLERS TO YOU FOR ANY AND ALL CLAIMS ARISING OUT OF OR RELATING TO THIS EULA OR THE SOFTWARE SHALL NOT EXCEED THE AMOUNT ACTUALLY PAID BY YOU TO SOC PRIME FOR ONE (1) MONTH OF SOFTWARE USAGE IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM. THIS LIMITATION CONSTITUTES YOUR EXCLUSIVE REMEDY AND SOC PRIME'S SOLE LIABILITY HEREUNDER.
-AI features are provided solely to normalize data and map it to Sigma categories. User acknowledges that AI output may be inaccurate or incomplete, and Company makes no guarantees regarding detection outcomes.
+Exhibit A - EUROPEAN UNION PUBLIC LICENCE v. 1.2
+EUPL © the European Union 2007, 2016
+This European Union Public Licence (the ‘EUPL’) applies to the Work (as defined below) which is provided under the terms of this Licence. Any use of the Work, other than as authorised under this Licence is prohibited (to the extent such use is covered by a right of the copyright holder of the Work).
+The Work is provided under the terms of this Licence when the Licensor (as defined below) has placed the following notice immediately following the copyright notice for the Work:
+Licensed under the EUPL
+or has expressed by any other means his willingness to license under the EUPL.
+1. Definitions
+In this Licence, the following terms have the following meaning:
+- ‘The Licence’: this Licence.
+- ‘The Original Work’: the work or software distributed or communicated by the Licensor under this Licence, available as Source Code and also as Executable Code as the case may be.
+- ‘Derivative Works’: the works or software that could be created by the Licensee, based upon the Original Work or modifications thereof. This Licence does not define the extent of modification or dependence on the Original Work required in order to classify a work as a Derivative Work; this extent is determined by copyright law applicable in the country mentioned in Article 15.
+- ‘The Work’: the Original Work or its Derivative Works.
+- ‘The Source Code’: the human-readable form of the Work which is the most convenient for people to study and modify.
+- ‘The Executable Code’: any code which has generally been compiled and which is meant to be interpreted by a computer as a program.
+- ‘The Licensor’: the natural or legal person that distributes or communicates the Work under the Licence.
+- ‘Contributor(s)’: any natural or legal person who modifies the Work under the Licence, or otherwise contributes to the creation of a Derivative Work.
+- ‘The Licensee’ or ‘You’: any natural or legal person who makes any usage of the Work under the terms of the Licence.
+- ‘Distribution’ or ‘Communication’: any act of selling, giving, lending, renting, distributing, communicating, transmitting, or otherwise making available, online or offline, copies of the Work or providing access to its essential functionalities at the disposal of any other natural or legal person.
 
-Indemnity
-You agree, to the extent permitted under applicable law, to indemnify, defend, and hold harmless SOC Prime, our directors, officers, employees, and affiliates from and against any and all complaints, charges, claims, damages, losses, costs, liabilities, and expenses (including attorneys' fees) due to, arising out of, or relating in any way to your breach of this EULA.
+2. Scope of the rights granted by the Licence
+The Licensor hereby grants You a worldwide, royalty-free, non-exclusive, sublicensable licence to do the following, for the duration of copyright vested in the Original Work:
+- use the Work in any circumstance and for all usage,
+- reproduce the Work,
+- modify the Work, and make Derivative Works based upon the Work,
+- communicate to the public, including the right to make available or display the Work or copies thereof to the public and perform publicly, as the case may be, the Work,
+- distribute the Work or copies thereof,
+- lend and rent the Work or copies thereof,
+- sublicense rights in the Work or copies thereof.
+Those rights can be exercised on any media, supports and formats, whether now known or later invented, as far as the applicable law permits so.
+In the countries where moral rights apply, the Licensor waives his right to exercise his moral right to the extent allowed by law in order to make effective the licence of the economic rights here above listed.
+The Licensor grants to the Licensee royalty-free, non-exclusive usage rights to any patents held by the Licensor, to the extent necessary to make use of the rights granted on the Work under this Licence.
+3. Communication of the Source Code
+The Licensor may provide the Work either in its Source Code form, or as Executable Code. If the Work is provided as Executable Code, the Licensor provides in addition a machine-readable copy of the Source Code of the Work along with each copy of the Work that the Licensor distributes or indicates, in a notice following the copyright notice attached to the Work, a repository where the Source Code is easily and freely accessible for as long as the Licensor continues to distribute or communicate the Work.
+4. Limitations on copyright
+Nothing in this Licence is intended to deprive the Licensee of the benefits from any exception or limitation to the exclusive rights of the rights owners in the Work, of the exhaustion of those rights or of other applicable limitations thereto.
+5. Obligations of the Licensee
+The grant of the rights mentioned above is subject to some restrictions and obligations imposed on the Licensee. Those obligations are the following:
+Attribution right: The Licensee shall keep intact all copyright, patent or trademarks notices and all notices that refer to the Licence and to the disclaimer of warranties. The Licensee must include a copy of such notices and a copy of the Licence with every copy of the Work he/she distributes or communicates. The Licensee must cause any Derivative Work to carry prominent notices stating that the Work has been modified and the date of modification.
+Copyleft clause: If the Licensee distributes or communicates copies of the Original Works or Derivative Works, this Distribution or Communication will be done under the terms of this Licence or of a later version of this Licence unless the Original Work is expressly distributed only under this version of the Licence — for example by communicating ‘EUPL v. 1.2 only’. The Licensee (becoming Licensor) cannot offer or impose any additional terms or conditions on the Work or Derivative Work that alter or restrict the terms of the Licence.
+Compatibility clause: If the Licensee Distributes or Communicates Derivative Works or copies thereof based upon both the Work and another work licensed under a Compatible Licence, this Distribution or Communication can be done under the terms of this Compatible Licence. For the sake of this clause, ‘Compatible Licence’ refers to the licences listed in the appendix attached to this Licence. Should the Licensee's obligations under the Compatible Licence conflict with his/her obligations under this Licence, the obligations of the Compatible Licence shall prevail.
+Provision of Source Code: When distributing or communicating copies of the Work, the Licensee will provide a machine-readable copy of the Source Code or indicate a repository where this Source will be easily and freely available for as long as the Licensee continues to distribute or communicate the Work.
+Legal Protection: This Licence does not grant permission to use the trade names, trademarks, service marks, or names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the copyright notice.
+6. Chain of Authorship
+The original Licensor warrants that the copyright in the Original Work granted hereunder is owned by him/her or licensed to him/her and that he/she has the power and authority to grant the Licence.
+Each Contributor warrants that the copyright in the modifications he/she brings to the Work are owned by him/her or licensed to him/her and that he/she has the power and authority to grant the Licence.
+Each time You accept the Licence, the original Licensor and subsequent Contributors grant You a licence to their contributions to the Work, under the terms of this Licence.
+7. Disclaimer of Warranty
+The Work is a work in progress, which is continuously improved by numerous Contributors. It is not a finished work and may therefore contain defects or ‘bugs’ inherent to this type of development.
+For the above reason, the Work is provided under the Licence on an ‘as is’ basis and without warranties of any kind concerning the Work, including without limitation merchantability, fitness for a particular purpose, absence of defects or errors, accuracy, non-infringement of intellectual property rights other than copyright as stated in Article 6 of this Licence.
+This disclaimer of warranty is an essential part of the Licence and a condition for the grant of any rights to the Work.
+8. Disclaimer of Liability
+Except in the cases of wilful misconduct or damages directly caused to natural persons, the Licensor will in no event be liable for any direct or indirect, material or moral, damages of any kind, arising out of the Licence or of the use of the Work, including without limitation, damages for loss of goodwill, work stoppage, computer failure or malfunction, loss of data or any commercial damage, even if the Licensor has been advised of the possibility of such damage. However, the Licensor will be liable under statutory product liability laws as far such laws apply to the Work.
+9. Additional agreements
+While distributing the Work, You may choose to conclude an additional agreement, defining obligations or services consistent with this Licence. However, if accepting obligations, You may act only on your own behalf and on your sole responsibility, not on behalf of the original Licensor or any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against such Contributor by the fact You have accepted any warranty or additional liability.
+10. Acceptance of the Licence
+The provisions of this Licence can be accepted by clicking on an icon ‘I agree’ placed under the bottom of a window displaying the text of this Licence or by affirming consent in any other similar way, in accordance with the rules of applicable law. Clicking on that icon indicates your clear and irrevocable acceptance of this Licence and all of its terms and conditions.
+Similarly, you irrevocably accept this Licence and all of its terms and conditions by exercising any rights granted to You by Article 2 of this Licence, such as the use of the Work, the creation by You of a Derivative Work or the Distribution or Communication by You of the Work or copies thereof.
+11. Information to the public
+In case of any Distribution or Communication of the Work by means of electronic communication by You (for example, by offering to download the Work from a remote location) the distribution channel or media (for example, a website) must at least provide to the public the information requested by the applicable law regarding the Licensor, the Licence and the way it may be accessible, concluded, stored and reproduced by the Licensee.
+12. Termination of the Licence
+The Licence and the rights granted hereunder will terminate automatically upon any breach by the Licensee of the terms of the Licence.
+Such a termination will not terminate the licences of any person who has received the Work from the Licensee under the Licence, provided such persons remain in full compliance with the Licence.
+13. Miscellaneous
+Without prejudice of Article 9 above, the Licence represents the complete agreement between the Parties as to the Work.
+If any provision of the Licence is invalid or unenforceable under applicable law, this will not affect the validity or enforceability of the Licence as a whole. Such provision will be construed or reformed so as necessary to make it valid and enforceable.
+The European Commission may publish other linguistic versions or new versions of this Licence or updated versions of the Appendix, so far this is required and reasonable, without reducing the scope of the rights granted by the Licence. New versions of the Licence will be published with a unique version number.
+All linguistic versions of this Licence, approved by the European Commission, have identical value. Parties can take advantage of the linguistic version of their choice.
+14. Jurisdiction
+Without prejudice to specific agreement between parties,
+- any litigation resulting from the interpretation of this License, arising between the European Union institutions, bodies, offices or agencies, as a Licensor, and any Licensee, will be subject to the jurisdiction of the Court of Justice of the European Union, as laid down in article 272 of the Treaty on the Functioning of the European Union,
+- any litigation arising between other parties and resulting from the interpretation of this License, will be subject to the exclusive jurisdiction of the competent court where the Licensor resides or conducts its primary business.
 
-Governing Law and Dispute Resolution
-This EULA (including the Software license, any related orders, and all disputes arising out of or relating thereto) shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of laws principles. The United Nations Convention on Contracts for the International Sale of Goods and the Uniform Computer Information Transactions Act are expressly excluded.
-Any controversy, claim, or dispute arising out of or relating to this EULA, the Software, or the breach, termination, enforcement, interpretation, or validity thereof (including the determination of the scope or applicability of this arbitration provision) shall be resolved exclusively by binding arbitration administered by the American Arbitration Association ("AAA") in accordance with its Commercial Arbitration Rules then in effect. The arbitration shall be conducted by a single arbitrator experienced in technology and software licensing disputes. The seat (legal place) of arbitration shall be Wilmington, Delaware (or such other location as the parties may mutually agree). The language of the arbitration shall be English. Judgment on the award rendered by the arbitrator may be entered in any court having jurisdiction thereof.
-The parties agree that: (a) The arbitrator shall have the exclusive authority to resolve any dispute relating to the interpretation, applicability, enforceability, or formation of this arbitration provision, including but not limited to any claim that all or any part of it is void or voidable; (b) Discovery shall be limited in accordance with the AAA Commercial Arbitration Rules; and (c) The arbitrator shall issue a reasoned written decision explaining the essential findings and conclusions on which the award is based.
-The parties agree to arbitrate only on an individual basis and hereby waive any right to bring, participate in, or consolidate any claims as a class action, private attorney general action, or any other representative proceeding. If any court or arbitrator determines that the foregoing class action waiver is unenforceable or invalid for any reason, then the arbitration provision set forth above shall be deemed null and void in its entirety, and the parties shall be deemed to have not agreed to arbitrate.
-
-Waiver and Severability
-Failure by either party to exercise any of its rights under, or to enforce any provision of, this EULA will not be deemed a waiver or forfeiture of such rights or ability to enforce such provision. If any provision of this EULA is held by a court of competent jurisdiction to be illegal, invalid or unenforceable, that provision will be amended to achieve as nearly as possible the same economic effect of the original provision and the remainder of this EULA will remain in full force and effect.
-
-Modification
-SOC Prime may modify this EULA in its sole discretion from time to time. SOC Prime will provide reasonable prior notice of material modifications (e.g., those that materially reduce functionality, increase fees mid-term, or impose new material obligations on Users) by posting the updated EULA on the Company's publicly available Site and/or notifying Users via email or in-app notification at least thirty (30) days in advance (or such shorter period as may be required for urgent legal or security reasons). Non-material modifications will take effect upon posting. Continued use of the Software after the effective date constitutes User's acceptance of the modified EULA. If a material modification is unacceptable to User, User's sole remedy is to terminate this EULA and cease using the Software, with any prepaid unused fees refunded on a pro-rata basis (unless otherwise prohibited by law). No one other than SOC Prime has the right to modify this EULA.
+15. Applicable Law
+Without prejudice to specific agreement between parties,
+- this Licence shall be governed by the law of the European Union Member State where the Licensor has his seat, resides or has his registered office,
+- this licence shall be governed by Belgian law if the Licensor has no seat, residence or registered office inside a European Union Member State.
+Appendix
+Compatible Licences according to Article 5 EUPL are:
+- GNU General Public License (GPL) v. 2, v. 3
+- GNU Affero General Public License (AGPL) v. 3
+- Open Software License (OSL) v. 2.1, v. 3.0
+- Eclipse Public License (EPL) v. 1.0
+- CeCILL v. 2.0, v. 2.1
+- Mozilla Public Licence (MPL) v. 2
+- GNU Lesser General Public Licence (LGPL) v. 2.1, v. 3
+- Creative Commons Attribution-ShareAlike v. 3.0 Unported (CC BY-SA 3.0) for works other than software
+- European Union Public Licence (EUPL) v. 1.1, v. 1.2
+- Québec Free and Open-Source Licence — Reciprocity (LiLiQ-R) or Strong Reciprocity (LiLiQ-R+)
+The European Commission may update this Appendix to later versions of the above licences without producing a new version of the EUPL, as long as they provide the rights granted in Article 2 of this Licence and protect the covered Source Code from exclusive appropriation.
+All other changes or additions to this Appendix require the production of a new EUPL version.
