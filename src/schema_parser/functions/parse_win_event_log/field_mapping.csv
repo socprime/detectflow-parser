@@ -1,0 +1,935 @@
+event_id,sigma_field,viewer_field_group,viewer_field_name
+4688,SubjectUserSid,(Creator) Subject,Security ID
+4688,SubjectUserName,(Creator) Subject,Account Name
+4688,SubjectDomainName,(Creator) Subject,Account Domain
+4688,SubjectLogonId,(Creator) Subject,Logon ID
+4688,NewProcessId,Process Information,New Process ID
+4688,NewProcessName,Process Information,New Process Name
+4688,TokenElevationType,Process Information,Token Elevation Type
+4688,ProcessId,Process Information,Creator Process ID
+4688,CommandLine,Process Information,Process Command Line
+4688,TargetUserSid,Target Subject,Security ID
+4688,TargetUserName,Target Subject,Account Name
+4688,TargetDomainName,Target Subject,Account Domain
+4688,TargetLogonId,Target Subject,Logon ID
+4688,ParentProcessName,Process Information,Creator Process Name
+4688,MandatoryLabel,Process Information,Mandatory Label
+4698,SubjectUserSid,Subject,Security ID
+4698,SubjectUserName,Subject,Account Name
+4698,SubjectDomainName,Subject,Account Domain
+4698,SubjectLogonId,Subject,Logon ID
+4698,TaskName,Task Information,Task Name
+4698,TaskContent,Task Information,Task Content
+4624,SubjectUserSid,Subject,Security ID
+4624,SubjectUserName,Subject,Account Name
+4624,SubjectDomainName,Subject,Account Domain
+4624,SubjectLogonId,Subject,Logon ID
+4624,TargetUserSid,New Logon,Security ID
+4624,TargetUserName,New Logon,Account Name
+4624,TargetDomainName,New Logon,Account Domain
+4624,TargetLogonId,New Logon,Logon ID
+4624,LogonType,Logon Information,Logon Type
+4624,LogonProcessName,Detailed Authentication Information,Logon Process
+4624,AuthenticationPackageName,Detailed Authentication Information,Authentication Package
+4624,WorkstationName,Network Information,Workstation Name
+4624,LogonGuid,New Logon,Logon GUID
+4624,TransmittedServices,Detailed Authentication Information,Transited Services
+4624,LmPackageName,Detailed Authentication Information,Package Name (NTLM only)
+4624,KeyLength,Detailed Authentication Information,Key Length
+4624,ProcessId,Process Information,Process ID
+4624,ProcessName,Process Information,Process Name
+4624,IpAddress,Network Information,Source Network Address
+4624,IpPort,Network Information,Source Port
+4624,ImpersonationLevel,Logon Information,Impersonation Level
+4624,RestrictedAdminMode,Logon Information,Restricted Admin Mode
+4624,TargetOutboundUserName,New Logon,Network Account Name
+4624,TargetOutboundDomainName,New Logon,Network Account Domain
+4624,VirtualAccount,Logon Information,Virtual Account
+4624,TargetLinkedLogonId,New Logon,Linked Logon ID
+4624,ElevatedToken,Logon Information,Elevated Token
+4663,SubjectUserSid,Subject,Security ID
+4663,SubjectUserName,Subject,Account Name
+4663,SubjectDomainName,Subject,Account Domain
+4663,SubjectLogonId,Subject,Logon ID
+4663,ObjectServer,Object,Object Server
+4663,ObjectType,Object,Object Type
+4663,ObjectName,Object,Object Name
+4663,HandleId,Object,Handle ID
+4663,AccessList,Access Request Information,Accesses
+4663,AccessMask,Access Request Information,AccessMask
+4663,ProcessId,Process Information,Process ID
+4663,ProcessName,Process Information,Process Name
+4663,Resource Attributes,Object,ResourceAttributes
+4697,SubjectUserSid,Subject,Security ID
+4697,SubjectUserName,Subject,Account Name
+4697,SubjectDomainName,Subject,Account Domain
+4697,SubjectLogonId,Subject,Logon ID
+4697,ServiceName,Service Information,Service Name
+4697,ServiceFileName,Service Information,Service File Name
+4697,ServiceType,Service Information,Service Type
+4697,ServiceStartType,Service Information,Service Start Type
+4697,ServiceAccount,Service Information,Service Account
+5136,OpCorrelationID,Operation,Correlation ID
+5136,AppCorrelationID,Operation,Application Correlation ID
+5136,SubjectUserSid,Subject,Security ID
+5136,SubjectUserName,Subject,Account Name
+5136,SubjectDomainName,Subject,Domain Name
+5136,SubjectLogonId,Subject,Logon ID
+5136,DSName,Directory Service,Name
+5136,DSType,Directory Service,Type
+5136,ObjectDN,Object,DN
+5136,ObjectGUID,Object,GUID
+5136,ObjectClass,Object,Class
+5136,AttributeLDAPDisplayName,Attribute,LDAP Display Name
+5136,AttributeSyntaxOID,Attribute,Syntax (OID)
+5136,AttributeValue,Attribute,Value
+5136,OperationType,Operation,Type
+4656,SubjectUserSid,Subject,Security ID
+4656,SubjectUserName,Subject,Account Name
+4656,SubjectDomainName,Subject,Account Domain
+4656,SubjectLogonId,Subject,Logon ID
+4656,ObjectServer,Object,Object Server
+4656,ObjectType,Object,Object Type
+4656,ObjectName,Object,Object Name
+4656,HandleId,Object,Handle ID
+4656,TransactionId,Access Request Information,Transaction ID
+4656,AccessList,Access Request Information,Accesses
+4656,AccessReason,Access Request Information,Access Reasons
+4656,AccessMask,Access Request Information,Access Mask
+4656,PrivilegeList,Access Request Information,Privileges Used for Access Check
+4656,RestrictedSidCount,Access Request Information,Restricted SID Count
+4656,ProcessId,Process Information,Process ID
+4656,ProcessName,Process Information,Process Name
+4656,ResourceAttributes,Object,Resource Attributes
+4625,SubjectUserSid,Subject,Security ID
+4625,SubjectUserName,Subject,Account Name
+4625,SubjectDomainName,Subject,Account Domain
+4625,SubjectLogonId,Subject,Logon ID
+4625,TargetUserSid,Account For Which Logon Failed,Security ID
+4625,TargetUserName,Account For Which Logon Failed,Account Name
+4625,TargetDomainName,Account For Which Logon Failed,Account Domain
+4625,Status,Failure Information,Status
+4625,FailureReason,Failure Information,Failure Reason
+4625,SubStatus,Failure Information,Sub Status
+4625,LogonType,Subject,Logon Type
+4625,LogonProcessName,Detailed Authentication Information,Logon Process
+4625,AuthenticationPackageName,Detailed Authentication Information,Authentication Package
+4625,WorkstationName,Network Information,Workstation Name
+4625,TransmittedServices,Detailed Authentication Information,Transited Services
+4625,LmPackageName,Detailed Authentication Information,Package Name (NTLM only)
+4625,KeyLength,Detailed Authentication Information,Key Length
+4625,ProcessId,Process Information,Caller Process ID
+4625,ProcessName,Process Information,Caller Process Name
+4625,IpAddress,Network Information,Source Network Address
+4625,IpPort,Network Information,Source Port
+4662,SubjectUserSid,Subject,Security ID
+4662,SubjectUserName,Subject,Account Name
+4662,SubjectDomainName,Subject,Account Domain
+4662,SubjectLogonId,Subject,Logon ID
+4662,ObjectServer,Object,Object Server
+4662,ObjectType,Object,Object Type
+4662,ObjectName,Object,Object Name
+4662,OperationType,Operation,Operation Type
+4662,HandleId,Object,Handle ID
+4662,AccessList,Operation,Accesses
+4662,AccessMask,Operation,Access Mask
+4662,Properties,Operation,Properties
+4662,AdditionalInfo,Additional Information,Parameter 1
+4662,AdditionalInfo2,Additional Information,Parameter 2
+4728,MemberName,Member,Account Name
+4728,MemberSid,Member,Security ID
+4728,TargetUserName,Group,Group Name
+4728,TargetDomainName,Group,Group Domain
+4728,TargetSid,Group,Security ID
+4728,SubjectUserSid,Subject,Security ID
+4728,SubjectUserName,Subject,Account Name
+4728,SubjectDomainName,Subject,Account Domain
+4728,SubjectLogonId,Subject,Logon ID
+4728,PrivilegeList,Additional Information,Privileges
+4732,MemberName,Member,Account Name
+4732,MemberSid,Member,Security ID
+4732,TargetUserName,Group,Group Name
+4732,TargetDomainName,Group,Group Domain
+4732,TargetSid,Group,Security ID
+4732,SubjectUserSid,Subject,Security ID
+4732,SubjectUserName,Subject,Account Name
+4732,SubjectDomainName,Subject,Account Domain
+4732,SubjectLogonId,Subject,Logon ID
+4732,PrivilegeList,Additional Information,Privileges
+4756,MemberName,Member,Account Name
+4756,MemberSid,Member,Security ID
+4756,TargetUserName,Group,Account Name
+4756,TargetDomainName,Group,Account Domain
+4756,TargetSid,Group,Security ID
+4756,SubjectUserSid,Subject,Security ID
+4756,SubjectUserName,Subject,Account Name
+4756,SubjectDomainName,Subject,Account Domain
+4756,SubjectLogonId,Subject,Logon ID
+4756,PrivilegeList,Additional Information,Privileges
+4742,TargetUserName,Computer Account That Was Changed,Account Name
+4742,TargetDomainName,Computer Account That Was Changed,Account Domain
+4742,TargetSid,Computer Account That Was Changed,Security ID
+4742,SubjectUserSid,Subject,Security ID
+4742,SubjectUserName,Subject,Account Name
+4742,SubjectDomainName,Subject,Account Domain
+4742,SubjectLogonId,Subject,Logon ID
+4742,PrivilegeList,Additional Information,Privileges
+4742,SamAccountName,Changed Attributes,SAM Account Name
+4742,DisplayName,Changed Attributes,Display Name
+4742,UserPrincipalName,Changed Attributes,User Principal Name
+4742,HomeDirectory,Changed Attributes,Home Directory
+4742,HomePath,Changed Attributes,Home Drive
+4742,ScriptPath,Changed Attributes,Script Path
+4742,ProfilePath,Changed Attributes,Profile Path
+4742,UserWorkstations,Changed Attributes,User Workstations
+4742,PasswordLastSet,Changed Attributes,Password Last Set
+4742,AccountExpires,Changed Attributes,Account Expires
+4742,PrimaryGroupId,Changed Attributes,Primary Group ID
+4742,AllowedToDelegateTo,Changed Attributes,AllowedToDelegateTo
+4742,OldUacValue,Changed Attributes,Old UAC Value
+4742,NewUacValue,Changed Attributes,New UAC Value
+4742,UserAccountControl,Changed Attributes,User Account Control
+4742,UserParameters,Changed Attributes,User Parameters
+4742,SidHistory,Changed Attributes,SID History
+4742,LogonHours,Changed Attributes,Logon Hours
+4742,DnsHostName,Changed Attributes,DNS Host Name
+4742,ServicePrincipalNames,Changed Attributes,Service Principal Names
+4738,TargetUserName,Target Account,Account Name
+4738,TargetDomainName,Target Account,Account Domain
+4738,TargetSid,Target Account,Security ID
+4738,SubjectUserSid,Subject,Security ID
+4738,SubjectUserName,Subject,Account Name
+4738,SubjectDomainName,Subject,Account Domain
+4738,SubjectLogonId,Subject,Logon ID
+4738,PrivilegeList,Additional Information,Privileges
+4738,SamAccountName,Changed Attributes,SAM Account Name
+4738,DisplayName,Changed Attributes,Display Name
+4738,UserPrincipalName,Changed Attributes,User Principal Name
+4738,HomeDirectory,Changed Attributes,Home Directory
+4738,HomePath,Changed Attributes,Home Drive
+4738,ScriptPath,Changed Attributes,Script Path
+4738,ProfilePath,Changed Attributes,Profile Path
+4738,UserWorkstations,Changed Attributes,User Workstations
+4738,PasswordLastSet,Changed Attributes,Password Last Set
+4738,AccountExpires,Changed Attributes,Account Expires
+4738,PrimaryGroupId,Changed Attributes,Primary Group ID
+4738,AllowedToDelegateTo,Changed Attributes,AllowedToDelegateTo
+4738,OldUacValue,Changed Attributes,Old UAC Value
+4738,NewUacValue,Changed Attributes,New UAC Value
+4738,UserAccountControl,Changed Attributes,User Account Control
+4738,UserParameters,Changed Attributes,User Parameters
+4738,SidHistory,Changed Attributes,SID History
+4738,LogonHours,Changed Attributes,Logon Hours
+4769,TargetUserName,Account Information,Account Name
+4769,TargetDomainName,Account Information,Account Domain
+4769,ServiceName,Service Information,Service Name
+4769,ServiceSid,Service Information,Service ID
+4769,TicketOptions,Additional Information,Ticket Options
+4769,TicketEncryptionType,Additional Information,Ticket Encryption Type
+4769,IpAddress,Network Information,Client Address
+4769,IpPort,Network Information,Client Port
+4769,Status,Additional Information,Failure Code
+4769,LogonGuid,Account Information,Logon GUID
+4769,TransmittedServices,Additional Information,Transited Services
+4768,TargetUserName,Account Information,Account Name
+4768,TargetDomainName,Account Information,Supplied Realm Name
+4768,TargetSid,Account Information,User ID
+4768,ServiceName,Service Information,Service Name
+4768,ServiceSid,Service Information,Service ID
+4768,TicketOptions,Additional Information,Ticket Options
+4768,Status,Additional Information,Result Code
+4768,TicketEncryptionType,Additional Information,Ticket Encryption Type
+4768,PreAuthType,Additional Information,Pre-Authentication Type
+4768,IpAddress,Network Information,Client Address
+4768,IpPort,Network Information,Client Port
+4768,CertIssuerName,Certificate Information,Certificate Issuer Name
+4768,CertSerialNumber,Certificate Information,Certificate Serial Number
+4768,CertThumbprint,Certificate Information,Certificate Thumbprint
+4657,SubjectUserSid,Subject,Security ID
+4657,SubjectUserName,Subject,Account Name
+4657,SubjectDomainName,Subject,Account Domain
+4657,SubjectLogonId,Subject,Logon ID
+4657,ObjectName,Object,Object Name
+4657,ObjectValueName,Object,Object Value Name
+4657,HandleId,Object,Handle ID
+4657,OperationType,Object,Operation Type
+4657,OldValueType,Change Information,Old Value Type
+4657,OldValue,Change Information,Old Value
+4657,NewValueType,Change Information,New Value Type
+4657,NewValue,Change Information,New Value
+4657,ProcessId,Process Information,Process ID
+4657,ProcessName,Process Information,Process Name
+4661,SubjectUserSid,Subject,Security ID
+4661,SubjectUserName,Subject,Account Name
+4661,SubjectDomainName,Subject,Account Domain
+4661,SubjectLogonId,Subject,Logon ID
+4661,ObjectServer,Object,Object Server
+4661,ObjectType,Object,Object Type
+4661,ObjectName,Object,Object Name
+4661,HandleId,Object,Handle ID
+4661,TransactionId,Access Request Information,Transaction ID
+4661,AccessList,Access Request Information,Accesses
+4661,AccessMask,Access Request Information,Access Mask
+4661,PrivilegeList,Access Request Information,Privilege Used for Access Check
+4661,Properties,Access Request Information,Properties
+4661,RestrictedSidCount,Access Request Information,Restricted SID Count
+4661,ProcessId,Process Information,Process ID
+4661,ProcessName,Process Information,Process Name
+4648,SubjectUserSid,Subject,Security ID
+4648,SubjectUserName,Subject,Account Name
+4648,SubjectDomainName,Subject,Account Domain
+4648,SubjectLogonId,Subject,Logon ID
+4648,LogonGuid,Subject,Logon GUID
+4648,TargetUserName,Account Whose Credentials Were Used,Account Name
+4648,TargetDomainName,Account Whose Credentials Were Used,Account Domain
+4648,TargetLogonGuid,Account Whose Credentials Were Used,Logon GUID
+4648,TargetServerName,Target Server,Target Server Name
+4648,TargetInfo,Target Server,Additional Information
+4648,ProcessId,Process Information,Process ID
+4648,ProcessName,Process Information,Process Name
+4648,IpAddress,Network Information,Network Address
+4648,IpPort,Network Information,Port
+4720,TargetUserName,New Account,Account Name
+4720,TargetDomainName,New Account,Account Domain
+4720,TargetSid,New Account,Security ID
+4720,SubjectUserSid,Subject,Security ID
+4720,SubjectUserName,Subject,Account Name
+4720,SubjectDomainName,Subject,Account Domain
+4720,SubjectLogonId,Subject,Logon ID
+4720,PrivilegeList,Additional Information,Privileges
+4720,SamAccountName,Attributes,SAM Account Name
+4720,DisplayName,Attributes,Display Name
+4720,UserPrincipalName,Attributes,User Principal Name
+4720,HomeDirectory,Attributes,Home Directory
+4720,HomePath,Attributes,Home Drive
+4720,ScriptPath,Attributes,Script Path
+4720,ProfilePath,Attributes,Profile Path
+4720,UserWorkstations,Attributes,User Workstations
+4720,PasswordLastSet,Attributes,Password Last Set
+4720,AccountExpires,Attributes,Account Expires
+4720,PrimaryGroupId,Attributes,Primary Group ID
+4720,AllowedToDelegateTo,Attributes,Allowed To Delegate To
+4720,OldUacValue,Attributes,Old UAC Value
+4720,NewUacValue,Attributes,New UAC Value
+4720,UserAccountControl,Attributes,User Account Control
+4720,UserParameters,Attributes,User Parameters
+4720,SidHistory,Attributes,SID History
+4720,LogonHours,Attributes,Logon Hours
+4776,PackageName,,Authentication Package
+4776,TargetUserName,,Logon Account
+4776,Workstation,,Source Workstation
+4776,Status,,Error Code
+4799,TargetUserName,Group,Group Name
+4799,TargetDomainName,Group,Group Domain
+4799,TargetSid,Group,Security ID
+4799,SubjectUserSid,Subject,Security ID
+4799,SubjectUserName,Subject,Account Name
+4799,SubjectDomainName,Subject,Account Domain
+4799,SubjectLogonId,Subject,Logon ID
+4799,CallerProcessId,Process Information,Process ID
+4799,CallerProcessName,Process Information,Process Name
+4724,TargetUserName,Target Account,Account Name
+4724,TargetDomainName,Target Account,Account Domain
+4724,TargetSid,Target Account,Security ID
+4724,SubjectUserSid,Subject,Security ID
+4724,SubjectUserName,Subject,Account Name
+4724,SubjectDomainNamec,Subject,Account Domain
+4724,SubjectLogonId,Subject,Logon ID
+4741,TargetUserName,New Computer Account,Account Name
+4741,TargetDomainName,New Computer Account,Account Domain
+4741,TargetSid,New Computer Account,Security ID
+4741,SubjectUserSid,Subject,Security ID
+4741,SubjectUserName,Subject,Account Name
+4741,SubjectDomainName,Subject,Account Domain
+4741,SubjectLogonId,Subject,Logon ID
+4741,PrivilegeList,Additional Information,Privileges
+4741,SamAccountName,Attributes,SAM Account Name
+4741,DisplayName,Attributes,Display Name
+4741,UserPrincipalName,Attributes,User Principal Name
+4741,HomeDirectory,Attributes,Home Directory
+4741,HomePath,Attributes,Home Drive
+4741,ScriptPath,Attributes,Script Path
+4741,ProfilePath,Attributes,Profile Path
+4741,UserWorkstations,Attributes,User Workstations
+4741,PasswordLastSet,Attributes,Password Last Set
+4741,AccountExpires,Attributes,Account Expires
+4741,PrimaryGroupId,Attributes,Primary Group ID
+4741,AllowedToDelegateTo,Attributes,AllowedToDelegateTo
+4741,OldUacValue,Attributes,Old UAC Value
+4741,NewUacValue,Attributes,New UAC Value
+4741,UserAccountControl,Attributes,User Account Control
+4741,UserParameters,Attributes,User Parameters
+4741,SidHistory,Attributes,SID History
+4741,LogonHours,Attributes,Logon Hours
+4741,DnsHostName,Attributes,DNS Host Name
+4741,ServicePrincipalNames,Attributes,Service Principal Names
+4673,SubjectUserSid,Subject,Security ID
+4673,SubjectUserName,Subject,Account Name
+4673,SubjectDomainName,Subject,Account Domain
+4673,SubjectLogonId,Subject,Logon ID
+4673,ObjectServer,Service,Server
+4673,Service,Service,Service Name
+4673,PrivilegeList,Service Request Information,Privileges
+4673,ProcessId,Process,Process ID
+4673,ProcessName,Process,Process Name
+4730,TargetUserName,Deleted Group,Group Name
+4730,TargetDomainName,Deleted Group,Group Domain
+4730,TargetSid,Deleted Group,ecurity ID
+4730,SubjectUserSid,Subject,Security ID
+4730,SubjectUserName,Subject,Account Name
+4730,SubjectDomainName,Subject,Account Domain
+4730,SubjectLogonId,Subject,Logon ID
+4730,PrivilegeList,Additional Information,Privileges
+4699,SubjectUserSid,Subject,Security ID
+4699,SubjectUserName,Subject,Account Name
+4699,SubjectDomainName,Subject,Account Domain
+4699,SubjectLogonId,Subject,Logon ID
+4699,TaskName,Task Information,Task Name
+4699,TaskContent,Task Information,Task Content
+4781,OldTargetUserName,Target Account,Old Account Name
+4781,NewTargetUserName,Target Account,New Account Name
+4781,TargetDomainName,Target Account,Account Domain
+4781,TargetSid,Target Account,Security ID
+4781,SubjectUserSid,Subject,Security ID
+4781,SubjectUserName,Subject,Account Name
+4781,SubjectDomainName,Subject,Account Domain
+4781,SubjectLogonId,Subject,Logon ID
+4781,PrivilegeList,Additional Information,Privileges
+5137,OpCorrelationID,Operation,Correlation ID
+5137,AppCorrelationID,Operation,Application Correlation ID
+5137,SubjectUserSid,Subject,Security ID
+5137,SubjectUserName,Subject,Account Name
+5137,SubjectDomainName,Subject,Domain Name
+5137,SubjectLogonId,Subject,Logon ID
+5137,DSName,Directory Service,Name
+5137,DSType,Directory Service,Type
+5137,ObjectDN,Object,DN
+5137,ObjectGUID,Object,GUID
+5137,ObjectClass,Object,Class
+4674,SubjectUserSid,Subject,Security ID
+4674,SubjectUserName,Subject,Account Name
+4674,SubjectDomainName,Subject,Account Domain
+4674,SubjectLogonId,Subject,Logon ID
+4674,ObjectServer,Object,Object Server
+4674,ObjectType,Object,Object Type
+4674,ObjectName,Object,Object Name
+4674,HandleId,Object,Object Handle
+4674,AccessMask,Requested Operation,Desired Access
+4674,PrivilegeList,Requested Operation,Privileges
+4674,ProcessId,Process Information,Process ID
+4674,ProcessName,Process Information,Process Name
+5140,SubjectUserSid,Subject,Security ID
+5140,SubjectUserName,Subject,Account Name
+5140,SubjectDomainName,Subject,Account Domain
+5140,SubjectLogonId,Subject,Logon ID
+5140,ObjectType,Network Information,Object Type
+5140,IpAddress,Network Information,Source Address
+5140,IpPort,Network Information,Source Port
+5140,ShareName,Network Information,Share Name
+5140,ShareLocalPath,Network Information,Share Path
+5140,AccessMask,Access Request Information,Access Mask
+5140,AccessList,Access Request Information,Access List
+4771,TargetUserName,Account Information,Account Name
+4771,TargetSid,Account Information,Security ID
+4771,ServiceName,Service Information,Service Name
+4771,TicketOptions,Additional Information,Ticket Options
+4771,Status,Additional Information,Failure Code
+4771,PreAuthType,Additional Information,Pre-Authentication Type
+4771,IpAddress,Network Information,Client Address
+4771,IpPort,Network Information,Client Port
+4771,CertIssuerName,Certificate Information,Certificate Issuer Name
+4771,CertSerialNumber,Certificate Information,Certificate Serial Number
+4771,CertThumbprint,Certificate Information,Certificate Thumbprint
+4611,SubjectUserSid,Subject,Security ID
+4611,SubjectUserName,Subject,Account Name
+4611,SubjectDomainName,Subject,Account Domain
+4611,SubjectLogonId,Subject,Logon ID
+4611,LogonProcessName,Subject,Logon Process Name
+4794,SubjectUserSid,Subject,Security ID
+4794,SubjectUserName,Subject,Account Name
+4794,SubjectDomainName,Subject,Account Domain
+4794,SubjectLogonId,Subject,Logon ID
+4794,Workstation,Additional Information,Caller Workstation
+4794,Status,Additional Information,Status Code
+4616,SubjectUserSid,Subject,Security ID
+4616,SubjectUserName,Subject,Account Name
+4616,SubjectDomainName,Subject,Account Domain
+4616,SubjectLogonId,Subject,Logon ID
+4616,PreviousTime,Process Information,Previous Time
+4616,NewTime,Process Information,New Time
+4616,ProcessId,Process Information,Process ID
+4616,ProcessName,Process Information,Name
+4704,SubjectUserSid,Subject,Security ID
+4704,SubjectUserName,Subject,Account Name
+4704,SubjectDomainName,Subject,Account Domain
+4704,SubjectLogonId,Subject,Logon ID
+4704,TargetSid,Target Account,Account Name
+4704,PrivilegeList,New Right,User Right
+4719,SubjectUserSid,Subject,Security ID
+4719,SubjectUserName,Subject,Account Name
+4719,SubjectDomainName,Subject,Account Domain
+4719,SubjectLogonId,Subject,Logon ID
+4719,CategoryId,Audit Policy Change,Category
+4719,SubcategoryId,Audit Policy Change,Subcategory
+4719,SubcategoryGuid,Audit Policy Change,Subcategory GUID
+4719,AuditPolicyChanges,Audit Policy Change,Changes
+4727,TargetUserName,New Group,Group Name
+4727,TargetDomainName,New Group,Group Domain
+4727,TargetSid,New Group,Security ID
+4727,SubjectUserSid,Subject,Security ID
+4727,SubjectUserName,Subject,Account Name
+4727,SubjectDomainName,Subject,Account Domain
+4727,SubjectLogonId,Subject,Logon ID
+4727,PrivilegeList,Additional Information,Privileges
+4727,SamAccountName,Attributes,SAM Account Name
+4727,SidHistory,Attributes,SID History
+4731,TargetUserName,New Group,Group Name
+4731,TargetDomainName,New Group,Group Domain
+4731,TargetSid,New Group,Security ID
+4731,SubjectUserSid,Subject,Security ID
+4731,SubjectUserName,Subject,Account Name
+4731,SubjectDomainName,Subject,Account Domain
+4731,SubjectLogonId,Subject,Logon ID
+4731,PrivilegeList,Additional Information,Privileges
+4731,SamAccountName,Attributes,SAM Account Name
+4731,SidHistory,Attributes,SID History
+4702,SubjectUserSid,Subject,Security ID
+4702,SubjectUserName,Subject,Account Name
+4702,SubjectDomainName,Subject,Account Domain
+4702,SubjectLogonId,Subject,Logon ID
+4702,TaskName,Task Information,Task Name
+4702,TaskContentNew,Task Information,Task Content
+4701,SubjectUserSid,Subject,Security ID
+4701,SubjectUserName,Subject,Account Name
+4701,SubjectDomainName,Subject,Account Domain
+4701,SubjectLogonId,Subject,Logon ID
+4701,TaskName,Task Information,Task Name
+4701,TaskContent,Task Information,Task Content
+4729,MemberName,Member,Account Name
+4729,MemberSid,Member,Security ID
+4729,TargetUserName,Group,Group Name
+4729,TargetDomainName,Group,Group Domain
+4729,TargetSid,Group,Security ID
+4729,SubjectUserSid,Subject,Security ID
+4729,SubjectUserName,Subject,Account Name
+4729,SubjectDomainName,Subject,Account Domain
+4729,SubjectLogonId,Subject,Logon ID
+4729,PrivilegeList,Additional Information,Privileges
+4734,TargetUserName,Group,Group Name
+4734,TargetDomainName,Group,Group Domain
+4734,TargetSid,Group,Security ID
+4734,SubjectUserSid,Subject,Security ID
+4734,SubjectUserName,Subject,Account Name
+4734,SubjectDomainName,Subject,Account Domain
+4734,SubjectLogonId,Subject,Logon ID
+4734,PrivilegeList,Additional Information,Privileges
+4758,TargetUserName,Group,Group Name
+4758,TargetDomainName,Group,Group Domain
+4758,TargetSid,Group,Security ID
+4758,SubjectUserSid,Subject,Security ID
+4758,SubjectUserName,Subject,Account Name
+4758,SubjectDomainName,Subject,Account Domain
+4758,SubjectLogonId,Subject,Logon ID
+4758,PrivilegeList,Additional Information,Privileges
+5156,ProcessID,Application Information,Process ID
+5156,Application,Application Information,Application Name
+5156,Direction,Network Information,Direction
+5156,SourceAddress,Network Information,Source Address
+5156,SourcePort,Network Information,Source Port
+5156,DestAddress,Network Information,Destination Address
+5156,DestPort,Network Information,Destination Port
+5156,Protocol,Network Information,Protocol
+5156,FilterRTID,Filter Information,Filter Run-Time ID
+5156,LayerName,Filter Information,Layer Name
+5156,LayerRTID,Filter Information,Layer Run-Time ID
+1102,SubjectUserSid,Subject,Security ID
+1102,SubjectUserName,Subject,Account Name
+1102,SubjectDomainName,Subject,Domain Name
+1102,SubjectLogonId,Subject,Logon ID
+6416,SubjectUserSid,Subject,Security ID
+6416,SubjectUserName,Subject,Account Name
+6416,SubjectDomainName,Subject,Account Domain
+6416,SubjectLogonId,Subject,Logon ID
+6416,DeviceId,Subject,Device ID
+6416,DeviceDescription,Subject,Device Name
+6416,ClassId,Subject,Class ID
+6416,ClassName,Subject,Class Name
+6416,VendorIds,,Vendor IDs
+6416,CompatibleIds,,Compatible IDs
+6416,LocationInformation,,Location Information
+4717,SubjectUserSid,Subject,Security ID
+4717,SubjectUserName,Subject,Account Name
+4717,SubjectDomainName,Subject,Account Domain
+4717,SubjectLogonId,Subject,Logon ID
+4717,TargetSid,Account Modified,Account Name
+4717,AccessGranted,Access Granted,Access Right
+4622,SecurityPackageName,,Security Package Name
+4754,TargetUserName,Group,Group Name
+4754,TargetDomainName,Group,Group Domain
+4754,TargetSid,Group,Security ID
+4754,SubjectUserSid,Subject,Security ID
+4754,SubjectUserName,Subject,Account Name
+4754,SubjectDomainName,Subject,Account Domain
+4754,SubjectLogonId,Subject,Logon ID
+4754,PrivilegeList,Additional Information,Privileges
+4754,SamAccountName,Attributes,SAM Account Name
+4754,SidHistory,Attributes,SID History
+4672,SubjectUserSid,Subject,Security ID
+4672,SubjectUserName,Subject,Account Name
+4672,SubjectDomainName,Subject,Account Domain
+4672,SubjectLogonId,Subject,Logon ID
+4672,PrivilegeList,Subject,Privileges
+4723,TargetUserName,Target Account,Account Name
+4723,TargetDomainName,Target Account,Account Domain
+4723,TargetSid,Target Account,Security ID
+4723,SubjectUserSid,Subject,Security ID
+4723,SubjectUserName,Subject,Account Name
+4723,SubjectDomainName,Subject,Account Domain
+4723,SubjectLogonId,Subject,Logon ID
+4723,PrivilegeList,Additional Information,Privileges
+5142,SubjectUserSid,Subject,Security ID
+5142,SubjectUserName,Subject,Account Name
+5142,SubjectDomainName,Subject,Account Domain
+5142,SubjectLogonId,Subject,Logon ID
+5142,ShareName,Share Information,Share Name
+5142,ShareLocalPath,Share Information,Share Path
+4800,TargetUserSid,Subject,Security ID
+4800,TargetUserName,Subject,Account Name
+4800,TargetDomainName,Subject,Account Domain
+4800,TargetLogonId,Subject,Logon ID
+4800,SessionId,Subject,Session ID
+4614,NotificationPackageName,,Notification Package Name
+5143,SubjectUserSid,Subject,Security ID
+5143,SubjectUserName,Subject,Account Name
+5143,SubjectDomainName,Subject,Account Domain
+5143,SubjectLogonId,Subject,Logon ID
+5143,ObjectType,Share Information,Object Type
+5143,ShareName,Share Information,Share Name
+5143,ShareLocalPath,Share Information,Share Path
+5143,OldRemark,Share Information,Old Remark
+5143,NewRemark,Share Information,New Remark
+5143,OldMaxUsers,Share Information,Old MaxUsers
+5143,NewMaxUsers,Share Information,New MaxUsers
+5143,OldShareFlags,Share Information,Old ShareFlags
+5143,NewShareFlags,Share Information,New ShareFlags
+5143,OldSD,Share Information,Old SD
+5143,NewSD,Share Information,New SD
+4778,AccountName,Subject,Account Name
+4778,AccountDomain,Subject,Account Domain
+4778,LogonID,Subject,Logon ID
+4778,SessionName,Session,Session Name
+4778,ClientName,Additional Information,Client Name
+4778,ClientAddress,Additional Information,Client Address
+4904,SubjectUserSid,Subject,Security ID
+4904,SubjectUserName,Subject,Account Name
+4904,SubjectDomainName,Subject,Account Domain
+4904,SubjectLogonId,Subject,Logon ID
+4904,AuditSourceName,Event Source,Source Name
+4904,EventSourceId,Event Source,Event Source ID
+4904,ProcessId,Process,Process ID
+4904,ProcessName,Process,Process Name
+4905,SubjectUserSid,,Security ID
+4905,SubjectUserName,,Account Name
+4905,SubjectDomainName,,Account Domain
+4905,SubjectLogonId,,Logon ID
+4905,AuditSourceName,Event Source,Source Name
+4905,EventSourceId,Event Source,Event Source ID
+4905,ProcessId,Process,Process ID
+4905,ProcessName,Process,Process Name
+4722,TargetUserName,Target Account,Account Name
+4722,TargetDomainName,Target Account,Account Domain
+4722,TargetSid,Target Account,Security ID
+4722,SubjectUserSid,Subject,Security ID
+4722,SubjectUserName,Subject,Account Name
+4722,SubjectDomainName,Subject,Account Domain
+4722,SubjectLogonId,Subject,Logon ID
+4726,TargetUserName,Target Account,Account Name
+4726,TargetDomainName,Target Account,Account Domain
+4726,TargetSid,Target Account,Security ID
+4726,SubjectUserSid,Subject,Security ID
+4726,SubjectUserName,Subject,Account Name
+4726,SubjectDomainName,Subject,Account Domain
+4726,SubjectLogonId,Subject,Logon ID
+4726,PrivilegeList,Additional Information,Privileges
+4664,SubjectUserName,Subject,Account Name
+4664,SubjectDomainName,Subject,Account Domain
+4664,SubjectLogonId,Subject,Logon ID
+4664,FileName,Link Information,File Name
+4664,LinkName,Link Information,Link Name
+4664,TransactionId,Link Information,Transaction ID
+4950,ProfileChanged,,Profile Changed
+4950,SettingType,New Setting,Type
+4950,SettingValue,New Setting,Value
+4737,TargetUserName,Group,Group Name
+4737,TargetDomainName,Group,Group Domain
+4737,TargetSid,Group,Security ID
+4737,SubjectUserSid,Subject,Security ID
+4737,SubjectUserName,Subject,Account Name
+4737,SubjectDomainName,Subject,Account Domain
+4737,SubjectLogonId,Subject,Logon ID
+4737,PrivilegeList,Additional Information,Privileges
+4737,SamAccountName,Changed Attributes,SAM Account Name
+4737,SidHistory,Changed Attributes,SID History
+4692,SubjectUserSid,Subject,Security ID
+4692,SubjectUserName,Subject,Account Name
+4692,SubjectDomainName,Subject,Account Domain
+4692,SubjectLogonId,Subject,Logon ID
+4692,MasterKeyId,Key Information,Key Identifier
+4692,RecoveryServer,Key Information,Recovery Server
+4692,RecoveryKeyId,Key Information,Recovery Key ID
+4692,FailureReason,Status Information,Status Code
+5154,Protocol,Network Information,Protocol
+4618,EventId,Alert Information,Event ID
+4618,ComputerName,Alert Information,Computer
+4618,TargetUserSid,Subject,Security ID
+4618,TargetUserName,Subject,Account Name
+4618,TargetUserDomain,Subject,Account Domain
+4618,TargetLogonId,Subject,Logon ID
+4618,EventCount,Alert Information,Number of Events
+4618,Duration,Alert Information,Duration
+4649,SubjectUserSid,Subject,Security ID
+4649,SubjectUserName,Subject,Account Name
+4649,SubjectDomainName,Subject,Account Domain
+4649,SubjectLogonId,Subject,Logon ID
+4649,TargetUserName,Credentials Which Were Replayed,Account Name
+4649,TargetDomainName,Credentials Which Were Replayed,Account Domain
+4649,RequestType,Detailed Authentication Information,Request Type
+4649,LogonProcessName,Detailed Authentication Information,Logon Process
+4649,AuthenticationPackageName,Detailed Authentication Information,Authentication Package
+4649,WorkstationName,Network Information,Workstation Name
+4649,TransmittedServices,Detailed Authentication Information,Transited Services
+4649,ProcessId,Process Information,Process ID
+4649,ProcessName,Process Information,Process Name
+4658,SubjectUserSid,Subject,Security ID
+4658,SubjectUserName,Subject,Account Name
+4658,SubjectDomainName,Subject,Account Domain
+4658,SubjectLogonId,Subject,Logon ID
+4658,ObjectServer,Object,Object Server
+4658,HandleId,Object,Handle ID
+4658,ProcessId,Process Information,Process ID
+4658,ProcessName,Process Information,Process Name
+4725,TargetUserName,Target Account,Account Name
+4725,TargetDomainName,Target Account,Account Domain
+4725,TargetSid,Target Account,Security ID
+4725,SubjectUserSid,Subject,Security ID
+4725,SubjectUserName,Subject,Account Name
+4725,SubjectDomainName,Subject,Account Domain
+4725,SubjectLogonId,Subject,Logon ID
+4793,SubjectUserSid,Subject,Security ID
+4793,SubjectUserName,Subject,Account Name
+4793,SubjectDomainName,Subject,Account Domain
+4793,SubjectLogonId,Subject,Logon ID
+4793,Workstation,Additional Information,Caller Workstation
+4793,TargetUserName,Additional Information,Provided Account Name (unauthenticated)
+4793,Status,Additional Information,Status Code
+4801,TargetUserSid,Subject,Security ID
+4801,TargetUserName,Subject,Account Name
+4801,TargetDomainName,Subject,Account Domain
+4801,TargetLogonId,Subject,Logon ID
+4801,SessionId,Subject,Session ID
+4951,Profile,,Profile
+4951,RuleId,Ignored Rule,ID
+4951,RuleName,Ignored Rule,Name
+4952,Profile,,Profile
+4952,RuleId,Partially Ignored Rule,ID
+4952,RuleName,Partially Ignored Rule,Name
+4957,RuleId,Rule Information,ID
+4957,RuleName,Rule Information,Name
+4957,RuleAttr,Error Information,Reason
+4739,DomainPolicyChanged,,Change Type
+4739,DomainName,Domain,Domain Name
+4739,DomainSid,Domain,Domain ID
+4739,SubjectUserSid,Subject,Security ID
+4739,SubjectUserName,Subject,Account Name
+4739,SubjectDomainName,Subject,Account Domain
+4739,SubjectLogonId,Subject,Logon ID
+4739,PrivilegeList,Additional Information,Privileges
+4739,MinPasswordAge,Changed Attributes,Min. Password Age
+4739,MaxPasswordAge,Changed Attributes,Max. Password Age
+4739,ForceLogoff,Changed Attributes,Force Logoff
+4739,LockoutThreshold,Changed Attributes,Lockout Threshold
+4739,LockoutObservationWindow,Changed Attributes,Lockout Observation Window
+4739,LockoutDuration,Changed Attributes,Lockout Duration
+4739,PasswordProperties,Changed Attributes,Password Properties
+4739,MinPasswordLength,Changed Attributes,Min. Password Length
+4739,PasswordHistoryLength,Changed Attributes,Password History Length
+4739,MachineAccountQuota,Changed Attributes,Machine Account Quota
+4739,MixedDomainMode,Changed Attributes,Mixed Domain Mode
+4739,DomainBehaviorVersion,Changed Attributes,Domain Behavior Version
+4739,OemInformation,Changed Attributes,OEM Information
+4944,GroupPolicyApplied,,Group Policy Applied
+4944,Profile,,Profile Used
+4944,OperationMode,,Operational mode
+4944,RemoteAdminEnabled,,Allow Remote Administration
+4944,MulticastFlowsEnabled,,Allow Unicast Responses to Multicast/Broadcast Traffic
+4944,LogDroppedPacketsEnabled,Security Logging,Log Dropped Packets
+4944,LogSuccessfulConnectionsEnabled,Security Logging,Log Successful Connections
+4953,Profile,,Profile
+4953,ReasonForRejection,,Reason for Rejection
+4953,RuleId,Rule,ID
+4953,RuleName,Rule,Name
+4985,SubjectUserSid,Subject,Security ID
+4985,SubjectUserName,Subject,Account Name
+4985,SubjectDomainName,Subject,Account Domain
+4985,SubjectLogonId,Subject,Logon ID
+4985,TransactionId,Transaction Information,RM Transaction ID
+4985,NewState,Transaction Information,New State
+4985,ResourceManager,Transaction Information,Resource Manager
+4985,ProcessId,Process Information,Process ID
+4985,ProcessName,Process Information,Process Name
+4703,SubjectUserSid,Subject,Security ID
+4703,SubjectUserName,Subject,Account Name
+4703,SubjectDomainName,Subject,Account Domain
+4703,SubjectLogonId,Subject,Logon ID
+4703,TargetUserSid,Target Account,Security ID
+4703,TargetUserName,Target Account,Account Name
+4703,TargetDomainName,Target Account,Account Domain
+4703,TargetLogonId,Target Account,Logon ID
+4703,ProcessName,Process Information,Process Name
+4703,ProcessId,Process Information,Process ID
+4703,EnabledPrivilegeList,Enabled Privileges,Enabled Privileges
+4703,DisabledPrivilegeList,Disabled Privileges,Disabled Privileges
+4713,SubjectUserSid,Subject,Security ID
+4713,SubjectUserName,Subject,Account Name
+4713,SubjectDomainName,Subject,Account Domain
+4713,SubjectLogonId,Subject,Logon ID
+4713,KerberosPolicyChange,"('--' means no changes, otherwise each change is shown as",Changes Made
+4718,SubjectUserSid,Subject,Security ID
+4718,SubjectUserName,Subject,Account Name
+4718,SubjectDomainName,Subject,Account Domain
+4718,SubjectLogonId,Subject,Logon ID
+4718,TargetSid,Account Modified,Account Name
+4718,AccessRemoved,Access Removed,Access Right
+4748,TargetUserName,Group,Group Name
+4748,TargetDomainName,Group,Group Domain
+4748,TargetSid,Group,Security ID
+4748,SubjectUserSid,Subject,Security ID
+4748,SubjectUserName,Subject,Account Name
+4748,SubjectDomainName,Subject,Account Domain
+4748,SubjectLogonId,Subject,Logon ID
+4748,PrivilegeList,Additional Information,Privileges
+4753,TargetUserName,Group,Group Name
+4753,TargetDomainName,Group,Group Domain
+4753,TargetSid,Group,Security ID
+4753,SubjectUserSid,Subject,Security ID
+4753,SubjectUserName,Subject,Account Name
+4753,SubjectDomainName,Subject,Account Domain
+4753,SubjectLogonId,Subject,Logon ID
+4753,PrivilegeList,Additional Information,Privileges
+4757,MemberName,Member,Account Name
+4757,MemberSid,Member,Security ID
+4757,TargetUserName,Group,Group Name
+4757,TargetDomainName,Group,Group Domain
+4757,TargetSid,Group,Security ID
+4757,SubjectUserSid,Subject,Security ID
+4757,SubjectUserName,Subject,Account Name
+4757,SubjectDomainName,Subject,Account Domain
+4757,SubjectLogonId,Subject,Logon ID
+4757,PrivilegeList,Additional Information,Privileges
+4826,SubjectUserSid,Subject,Security ID
+4826,SubjectUserName,Subject,Account Name
+4826,SubjectDomainName,Subject,Account Domain
+4826,SubjectLogonId,Subject,Logon ID
+4826,LoadOptions,General Settings,Load Options
+4826,AdvancedOptions,General Settings,Advanced Options
+4826,ConfigAccessPolicy,General Settings,Configuration Access Policy
+4826,RemoteEventLogging,General Settings,System Event Logging
+4826,KernelDebug,General Settings,Kernel Debugging
+4826,VsmLaunchType,General Settings,VSM Launch Type
+4826,TestSigning,Signature Settings,Test Signing
+4826,FlightSigning,Signature Settings,Flight Signing
+4826,DisableIntegrityChecks,Signature Settings,Disable Integrity Checks
+4826,HypervisorLoadOptions,HyperVisor Settings,HyperVisor Load Options
+4826,HypervisorLaunchType,HyperVisor Settings,HyperVisor Launch Type
+4826,HypervisorDebug,HyperVisor Settings,HyperVisor Debugging
+4912,SubjectUserSid,Subject,Security ID
+4912,SubjectUserName,Subject,Account Name
+4912,SubjectDomainName,Subject,Account Domain
+4912,SubjectLogonId,Subject,Logon ID
+4912,TargetUserSid,Policy For Account,Security ID
+4912,CategoryId,Policy Change Details,Category
+4912,SubcategoryId,Policy Change Details,Subcategory
+4912,SubcategoryGuid,Policy Change Details,Subcategory GUID
+4912,AuditPolicyChanges,Policy Change Details,Changes
+4946,ProfileChanged,,Profile Changed
+4946,RuleId,Added Rule,Rule ID
+4946,RuleName,Added Rule,Rule Name
+4947,ProfileChanged,,Profile Changed
+4947,RuleId,Modified Rule,Rule ID
+4947,RuleName,Modified Rule,Rule Name
+4948,ProfileChanged,,Profile Changed
+4948,RuleId,Deleted Rule,Rule ID
+4948,RuleName,Deleted Rule,Rule Name
+4956,ActiveProfile,,New Active Profile
+4627,SubjectUserSid,Subject,Security ID
+4627,SubjectUserName,Subject,Account Name
+4627,SubjectDomainName,Subject,Account Domain
+4627,SubjectLogonId,Subject,Logon ID
+4627,TargetUserSid,New Logon,Security ID
+4627,TargetUserName,New Logon,Account Name
+4627,TargetDomainName,New Logon,Account Domain
+4627,TargetLogonId,New Logon,Logon ID
+4627,LogonType,Subject,Logon Type
+4627,EventIdx,New Logon,Event in sequence
+4627,EventCountTotal,,Events in sequence
+4627,GroupMembership,New Logon,Group Membership
+4634,TargetUserSid,Subject,Security ID
+4634,TargetUserName,Subject,Account Name
+4634,TargetDomainName,Subject,Account Domain
+4634,LogonID,Subject,Logon ID
+4634,LogonType,Subject,Logon Type
+4647,TargetUserSid,Subject,Security ID
+4647,TargetUserName,Subject,Account Name
+4647,TargetDomainName,Subject,Account Domain
+4647,TargetLogonId,Subject,Logon ID
+4705,Security ID,Subject,SubjectUserSid
+4705,SubjectUserName,Subject,Account Name
+4705,SubjectDomainName,Subject,Account Domain
+4705,SubjectLogonId,Subject,Logon ID
+4705,TargetSid,Target Account,Account Name
+4705,PrivilegeList,Removed Right,User Right
+4743,TargetUserName,Target Computer,Account Name
+4743,TargetDomainName,Target Computer,Account Domain
+4743,TargetSid,Target Computer,Security ID
+4743,SubjectUserSid,Subject,Security ID
+4743,SubjectUserName,Subject,Account Name
+4743,SubjectDomainName,Subject,Account Domain
+4743,SubjectLogonId,Subject,Logon ID
+4743,PrivilegeList,Additional Information,Privileges
+4610,AuthenticationPackageName,,Authentication Package Name
+5157,Direction,Network Information,Direction
+5157,Protocol,Network Information,Protocol
+4798,TargetUserName,User,Account Name
+4798,TargetDomainName,User,Account Domain
+4798,TargetSid,User,Security ID
+4798,SubjectUserSid,Subject,Security ID
+4798,SubjectUserName,Subject,Account Name
+4798,SubjectDomainName,Subject,Account Domain
+4798,SubjectLogonId,Subject,Logon ID
+4798,CallerProcessId,Process Information,Process ID
+4798,CallerProcessName,Process Information,Process Name
+4770,TargetUserName,Account Information,Account Name
+4770,TargetDomainName,Account Information,Account Domain
+4770,ServiceName,Service Information,Service Name
+4770,ServiceSid,Service Information,Service ID
+4770,TicketOptions,Additional Information,Ticket Options
+4770,TicketEncryptionType,Additional Information,Ticket Encryption Type
+4770,IpAddress,Network Information,Client Address
+4770,IpPort,Network Information,Client Port
+4755,TargetUserName,Group,Group Name
+4755,TargetDomainName,Group,Group Domain
+4755,TargetSid,Group,Security ID
+4755,SubjectUserSid,Subject,Security ID
+4755,SubjectUserName,Subject,Account Name
+4755,SubjectDomainName,Subject,Account Domain
+4755,SubjectLogonId,Subject,Logon ID
+4755,PrivilegeList,Additional Information,Privileges
+4755,SamAccountName,Changed Attributes,SAM Account Name
+4755,SidHistory,Changed Attributes,SID History
+4740,TargetUserName,Account That Was Locked Out,Account Name
+4740,TargetDomainName,Additional Information,Caller Computer Name
+4740,TargetSid,Account That Was Locked Out,Security ID
+4740,SubjectUserSid,Subject,Security ID
+4740,SubjectUserName,Subject,Account Name
+4740,SubjectDomainName,Subject,Account Domain
+4740,SubjectLogonId,Subject,Logon ID
