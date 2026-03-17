@@ -1,8 +1,7 @@
 from typing import Any
 
 from schema_parser.core.utils import set_value
-
-from .base import BaseFunction
+from schema_parser.functions.base import BaseFunction
 
 
 class SetFunction(BaseFunction):

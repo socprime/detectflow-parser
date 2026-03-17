@@ -1,3 +1,10 @@
+from schema_parser.core.utils import (
+    _parse_boolean,
+    _parse_key_value_pairs,
+    _parse_quoted_string,
+    extract_func_body,
+    extract_params,
+)
 from schema_parser.query_normalizer import QueryNormalizer
 
 
@@ -84,6 +91,64 @@ class TestParseJson:
         assert result["args"]["parse_json"]["field"] == "level1.level2.json_field"
         assert result["args"]["parse_json"]["in_place"] is True
 
+    def test_parse_json_reversed_param_order(self):
+        """Test parse_json with in_place before field"""
+        normalizer = QueryNormalizer()
+        query = 'parse_json(in_place=True, field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json"]
+        assert result["args"]["parse_json"]["field"] == "raw"
+        assert result["args"]["parse_json"]["in_place"] is True
+
+    def test_parse_json_quoted_boolean_true(self):
+        """Test parse_json with in_place="true" (quoted string coerced to bool)"""
+        normalizer = QueryNormalizer()
+        query = 'parse_json(field="raw", in_place="true")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json"]
+        assert result["args"]["parse_json"]["in_place"] is True
+
+    def test_parse_json_quoted_boolean_false(self):
+        """Test parse_json with in_place="false" (quoted string coerced to bool)"""
+        normalizer = QueryNormalizer()
+        query = 'parse_json(field="raw", in_place="false")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json"]
+        assert result["args"]["parse_json"]["in_place"] is False
+
+    def test_parse_json_invalid_quoted_boolean_rejected(self):
+        """Test parse_json with in_place="something" is rejected"""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_json(field="raw", in_place="something")')
+        assert result["steps"] == []
+
+    def test_parse_json_unknown_param_rejected(self):
+        """Test parse_json with unknown parameter is rejected"""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_json(field="raw", unknown="value")')
+        assert result["steps"] == []
+
+    def test_parse_json_missing_field_rejected(self):
+        """Test parse_json without field parameter is rejected"""
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query("parse_json(in_place=True)")["steps"] == []
+        assert normalizer.parse_query("parse_json()")["steps"] == []
+
+    def test_parse_json_missing_comma_rejected(self):
+        """Test parse_json with missing comma between params is rejected"""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_json(field="raw" in_place=True)')
+        assert result["steps"] == []
+
+    def test_parse_json_trailing_garbage_rejected(self):
+        """Test parse_json with garbage after boolean value is rejected"""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_json(field="raw", in_place=True garbage)')
+        assert result["steps"] == []
+
 
 class TestRegex:
     """Tests for regex function normalization"""
@@ -158,6 +223,161 @@ class TestRegex:
         assert result["steps"] == ["regex"]
         assert result["args"]["regex"]["pattern"] == "^test"
         assert result["args"]["regex"]["field"] == "level1.level2.log"
+
+    def test_regex_with_pipe_in_pattern(self):
+        """Test regex with pipe (alternation) in pattern"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="(?P<proto>TCP|UDP)")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP)"
+        assert result["args"]["regex"]["field"] == "raw"
+
+    def test_regex_with_pipe_in_pattern_pattern_first(self):
+        """Test regex with pipe in pattern when pattern comes first"""
+        normalizer = QueryNormalizer()
+        query = 'regex(pattern="(?P<level>INFO|WARN|ERROR)", field="log")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["pattern"] == "(?P<level>INFO|WARN|ERROR)"
+        assert result["args"]["regex"]["field"] == "log"
+
+    def test_regex_with_multiple_pipes_in_pattern(self):
+        """Test regex with multiple pipe alternations in pattern"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="msg", pattern="(?P<status>ok|warn|error|fatal)")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["pattern"] == "(?P<status>ok|warn|error|fatal)"
+        assert result["args"]["regex"]["field"] == "msg"
+
+    def test_regex_with_in_place_true(self):
+        """Test regex with in_place=True"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="^test", in_place=True)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["field"] == "raw"
+        assert result["args"]["regex"]["pattern"] == "^test"
+        assert result["args"]["regex"]["in_place"] is True
+
+    def test_regex_with_in_place_false(self):
+        """Test regex with in_place=False"""
+        normalizer = QueryNormalizer()
+        query = 'regex(pattern="^test", field="raw", in_place=False)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["pattern"] == "^test"
+        assert result["args"]["regex"]["field"] == "raw"
+        assert result["args"]["regex"]["in_place"] is False
+
+    def test_regex_with_in_place_whitespace(self):
+        """Test regex with in_place and extra whitespace"""
+        normalizer = QueryNormalizer()
+        query = 'regex( field = "raw" , pattern = "^test" , in_place = True )'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["field"] == "raw"
+        assert result["args"]["regex"]["pattern"] == "^test"
+        assert result["args"]["regex"]["in_place"] is True
+
+    def test_regex_with_in_place_quoted_true(self):
+        """Test regex with in_place="true" (quoted string)"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="^test", in_place="true")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["in_place"] is True
+
+    def test_regex_with_in_place_quoted_false(self):
+        """Test regex with in_place="false" (quoted string)"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="^test", in_place="false")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert result["args"]["regex"]["in_place"] is False
+
+    def test_regex_with_in_place_invalid_string(self):
+        """Test regex with in_place="something" (invalid) is rejected"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="^test", in_place="something")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == []
+
+    def test_regex_without_in_place_omitted(self):
+        """Test regex without in_place does not add in_place to args"""
+        normalizer = QueryNormalizer()
+        query = 'regex(field="raw", pattern="^test")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["regex"]
+        assert "in_place" not in result["args"]["regex"]
+
+    def test_regex_missing_required_params_rejected(self):
+        """Test regex with missing pattern or field is not normalized"""
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query('regex(field="raw")')["steps"] == []
+        assert normalizer.parse_query('regex(pattern="^test")')["steps"] == []
+        assert normalizer.parse_query("regex()")["steps"] == []
+
+    def test_regex_missing_comma_between_params_rejected(self):
+        """Test regex with missing comma between params is rejected."""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('regex(field="raw" pattern="^test")')
+        assert result["steps"] == []
+
+    def test_regex_with_boolean_trailing_garbage_rejected(self):
+        """Test regex with garbage after boolean value is rejected."""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query(
+            'regex(field="raw", pattern="^test", in_place=True garbage)'
+        )
+        assert result["steps"] == []
+
+    def test_regex_unknown_param_rejected(self):
+        """Test regex with unknown param is rejected."""
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('regex(field="raw", pattern="^test", unknown="value")')
+        assert result["steps"] == []
+
+    def test_regex_pipe_in_pattern_with_pipeline(self):
+        """Test regex with pipe in pattern combined with pipeline pipe separators"""
+        normalizer = QueryNormalizer()
+        query = (
+            'parse_json(field="raw")'
+            ' | regex(field="raw", pattern="(?P<proto>TCP|UDP)")'
+            ' | drop(fields="temp")'
+        )
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json", "regex", "drop"]
+        assert result["args"]["parse_json"]["field"] == "raw"
+        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP)"
+        assert result["args"]["regex"]["field"] == "raw"
+        assert result["args"]["drop"]["fields"] == "temp"
+
+    def test_regex_complex_pattern_with_pipes_in_multiline_query(self):
+        """Test regex with pipes in pattern inside a multiline query"""
+        normalizer = QueryNormalizer()
+        query = """
+        parse_json(field="raw")
+        | regex(field="raw", pattern="^(?P<level>DEBUG|INFO|WARN|ERROR) (?P<msg>.*)")
+        | rename(from="msg", to="message")
+        """
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json", "regex", "rename"]
+        assert result["args"]["regex"]["pattern"] == "^(?P<level>DEBUG|INFO|WARN|ERROR) (?P<msg>.*)"
+        assert result["args"]["regex"]["field"] == "raw"
 
 
 class TestRename:
@@ -647,3 +867,280 @@ rename(from="old", to="new")"""
         assert result["steps"] == ["set", "parse_json", "set"]
         assert result["args"]["set"]["field"] == "url"
         assert result["args"]["set"]["value"] == "http://example.com#fragment"
+
+    def test_integration_pipe_in_regex_with_comments(self):
+        """Test integration: pipe in regex pattern combined with comments"""
+        normalizer = QueryNormalizer()
+        query = """parse_json(field="raw") # Step 1
+| regex(field="raw", pattern="(?P<proto>TCP|UDP|ICMP)") # Extract protocol
+| set(field="type", value="network")"""
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == ["parse_json", "regex", "set"]
+        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP|ICMP)"
+        assert result["args"]["set"]["value"] == "network"
+
+
+class TestExtractFuncBody:
+    """Tests for extract_func_body function"""
+
+    def test_simple_function(self):
+        result = extract_func_body('regex(field="raw")', "regex")
+        assert result == 'field="raw"'
+
+    def test_with_whitespace(self):
+        result = extract_func_body('regex(  field = "raw"  )', "regex")
+        assert result == 'field = "raw"'
+
+    def test_wrong_func_name(self):
+        result = extract_func_body('regex(field="raw")', "drop")
+        assert result is None
+
+    def test_no_opening_paren(self):
+        result = extract_func_body("regex", "regex")
+        assert result is None
+
+    def test_unclosed_paren(self):
+        result = extract_func_body('regex(field="raw"', "regex")
+        assert result is None
+
+    def test_empty_body(self):
+        result = extract_func_body("regex()", "regex")
+        assert result is None
+
+    def test_nested_parens_in_pattern(self):
+        result = extract_func_body('regex(pattern="(?P<ip>\\S+)", field="log")', "regex")
+        assert 'pattern="(?P<ip>\\S+)"' in result
+        assert 'field="log"' in result
+
+    def test_quotes_with_parens_inside(self):
+        """Parentheses inside quoted strings should not affect depth."""
+        result = extract_func_body('regex(pattern="(a)(b)", field="x")', "regex")
+        assert result == 'pattern="(a)(b)", field="x"'
+
+    def test_func_name_with_underscore(self):
+        result = extract_func_body('parse_json(field="raw")', "parse_json")
+        assert result == 'field="raw"'
+
+    def test_trailing_content_after_closing_paren(self):
+        result = extract_func_body('regex(field="raw") extra', "regex")
+        assert result == 'field="raw"'
+
+
+class TestParseQuotedString:
+    """Tests for parse_quoted_string function"""
+
+    def test_simple_string(self):
+        value, pos = _parse_quoted_string('"hello"', 0)
+        assert value == "hello"
+        assert pos == 7
+
+    def test_escaped_quote(self):
+        value, pos = _parse_quoted_string(r'"say \"hi\""', 0)
+        assert value == 'say "hi"'
+
+    def test_escaped_backslash(self):
+        value, pos = _parse_quoted_string(r'"path\\to"', 0)
+        assert value == "path\\to"
+
+    def test_backslash_before_regular_char(self):
+        value, pos = _parse_quoted_string(r'"\\S+"', 0)
+        assert value == "\\S+"
+
+    def test_unclosed_quote(self):
+        value, pos = _parse_quoted_string('"unclosed', 0)
+        assert value is None
+
+    def test_empty_string(self):
+        value, pos = _parse_quoted_string('""', 0)
+        assert value == ""
+        assert pos == 2
+
+    def test_starting_at_offset(self):
+        value, pos = _parse_quoted_string('key="value"', 4)
+        assert value == "value"
+        assert pos == 11
+
+    def test_special_characters(self):
+        value, pos = _parse_quoted_string('"a.b-c_d"', 0)
+        assert value == "a.b-c_d"
+
+
+class TestParseBoolean:
+    """Tests for parse_boolean function"""
+
+    def test_true(self):
+        value, pos = _parse_boolean("True", 0)
+        assert value is True
+        assert pos == 4
+
+    def test_false(self):
+        value, pos = _parse_boolean("False", 0)
+        assert value is False
+        assert pos == 5
+
+    def test_true_case_insensitive(self):
+        value, pos = _parse_boolean("true", 0)
+        assert value is True
+
+    def test_false_case_insensitive(self):
+        value, pos = _parse_boolean("false", 0)
+        assert value is False
+
+    def test_true_mixed_case(self):
+        value, pos = _parse_boolean("TRUE", 0)
+        assert value is True
+
+    def test_invalid_value(self):
+        value, pos = _parse_boolean("notabool", 0)
+        assert value is None
+        assert pos == 0
+
+    def test_at_offset(self):
+        value, pos = _parse_boolean("xxx True", 4)
+        assert value is True
+        assert pos == 8
+
+    def test_true_followed_by_comma(self):
+        value, pos = _parse_boolean("True, next", 0)
+        assert value is True
+        assert pos == 4
+
+    def test_empty_string(self):
+        value, pos = _parse_boolean("", 0)
+        assert value is None
+        assert pos == 0
+
+
+class TestParseKeyValuePairs:
+    """Tests for parse_key_value_pairs function"""
+
+    def test_single_string_param(self):
+        result = _parse_key_value_pairs('field="raw"')
+        assert result == {"field": "raw"}
+
+    def test_two_string_params(self):
+        result = _parse_key_value_pairs('field="raw", pattern="^test"')
+        assert result == {"field": "raw", "pattern": "^test"}
+
+    def test_string_and_boolean(self):
+        result = _parse_key_value_pairs('field="raw", in_place=True')
+        assert result == {"field": "raw", "in_place": True}
+
+    def test_boolean_false(self):
+        result = _parse_key_value_pairs('field="raw", in_place=False')
+        assert result == {"field": "raw", "in_place": False}
+
+    def test_extra_whitespace(self):
+        result = _parse_key_value_pairs('  field = "raw" , pattern = "^test"  ')
+        assert result == {"field": "raw", "pattern": "^test"}
+
+    def test_empty_string_returns_empty_dict(self):
+        result = _parse_key_value_pairs("")
+        assert result == {}
+
+    def test_whitespace_only_returns_empty_dict(self):
+        result = _parse_key_value_pairs("   ")
+        assert result == {}
+
+    def test_invalid_no_equals(self):
+        result = _parse_key_value_pairs("field")
+        assert result is None
+
+    def test_invalid_value_missing(self):
+        result = _parse_key_value_pairs("field=")
+        assert result is None
+
+    def test_invalid_non_bool_unquoted(self):
+        result = _parse_key_value_pairs("field=notavalue")
+        assert result is None
+
+    def test_three_params(self):
+        result = _parse_key_value_pairs('pattern="^test", field="raw", in_place=True')
+        assert result == {"pattern": "^test", "field": "raw", "in_place": True}
+
+    def test_unclosed_quote_returns_none(self):
+        result = _parse_key_value_pairs('field="unclosed')
+        assert result is None
+
+    def test_missing_comma_between_params_returns_none(self):
+        result = _parse_key_value_pairs('field="raw" pattern="^test"')
+        assert result is None
+
+    def test_boolean_with_trailing_garbage_returns_none(self):
+        result = _parse_key_value_pairs('field="raw", in_place=True garbage')
+        assert result is None
+
+
+class TestExtractParams:
+    """Tests for extract_params function"""
+
+    def test_basic(self):
+        result = extract_params('regex(field="raw", pattern="^test")', "regex")
+        assert result == {"field": "raw", "pattern": "^test"}
+
+    def test_wrong_function_name(self):
+        result = extract_params('regex(field="raw")', "drop")
+        assert result is None
+
+    def test_empty_parens(self):
+        result = extract_params("regex()", "regex")
+        assert result is None
+
+    def test_with_boolean(self):
+        result = extract_params('regex(field="raw", pattern="^test", in_place=True)', "regex")
+        assert result == {"field": "raw", "pattern": "^test", "in_place": True}
+
+    def test_different_function(self):
+        result = extract_params('parse_json(field="raw")', "parse_json")
+        assert result == {"field": "raw"}
+
+    def test_unclosed_paren(self):
+        result = extract_params('regex(field="raw"', "regex")
+        assert result is None
+
+
+class TestSplitByPipe:
+    """Tests for _split_by_pipe static method"""
+
+    def test_simple_split(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe("a | b | c")
+        assert result == ["a ", " b ", " c"]
+
+    def test_pipe_inside_quotes_preserved(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe('regex(pattern="a|b") | drop(fields="x")')
+        assert result == ['regex(pattern="a|b") ', ' drop(fields="x")']
+
+    def test_multiple_pipes_inside_quotes(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe('regex(pattern="a|b|c|d")')
+        assert result == ['regex(pattern="a|b|c|d")']
+
+    def test_no_pipe(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe('parse_json(field="raw")')
+        assert result == ['parse_json(field="raw")']
+
+    def test_escaped_quote_does_not_break_tracking(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe(r'set(field="x", value="a\"b|c") | drop(fields="y")')
+        assert len(result) == 2
+        assert "|" not in result[1] or result[1].strip().startswith("drop")
+
+    def test_empty_string(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe("")
+        assert result == [""]
+
+    def test_only_pipes(self):
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe("||")
+        assert result == ["", "", ""]
+
+    def test_pipe_at_boundaries_of_quotes(self):
+        """Pipe immediately before/after quotes should split correctly"""
+        normalizer = QueryNormalizer()
+        result = normalizer._split_by_pipe('"a|b"|"c|d"')
+        assert result == ['"a|b"', '"c|d"']

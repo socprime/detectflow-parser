@@ -93,3 +93,48 @@ def test_regex_multiple_groups():
 
     assert result["ip"] == "192.168.1.1"
     assert result["time"] == "2024-01-01 10:00:00"
+
+
+def test_regex_in_place_false_returns_groupdict():
+    """Test regex with in_place=False returns groupdict (default behavior)"""
+    function = RegexFunction()
+    data = {"log": "192.168.1.1 - GET /api"}
+    result = function.execute(
+        data=data,
+        pattern="^(?P<ip>\\S+) .*",
+        field="log",
+        in_place=False,
+    )
+
+    assert result == {"ip": "192.168.1.1"}
+    assert data["log"] == "192.168.1.1 - GET /api"
+
+
+def test_regex_in_place_true_writes_to_field():
+    """Test regex with in_place=True writes groupdict to field and returns data"""
+    function = RegexFunction()
+    data = {"log": "192.168.1.1 - GET /api"}
+    result = function.execute(
+        data=data,
+        pattern="^(?P<ip>\\S+) .*",
+        field="log",
+        in_place=True,
+    )
+
+    assert result is data
+    assert result["log"] == {"ip": "192.168.1.1"}
+
+
+def test_regex_in_place_true_nested_path():
+    """Test regex in_place=True with nested field path"""
+    function = RegexFunction()
+    data = {"event": {"raw": "192.168.1.1 - GET /api"}}
+    result = function.execute(
+        data=data,
+        pattern="^(?P<ip>\\S+) .*",
+        field="event.raw",
+        in_place=True,
+    )
+
+    assert result is data
+    assert result["event"]["raw"] == {"ip": "192.168.1.1"}

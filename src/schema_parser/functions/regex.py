@@ -6,15 +6,24 @@ from schema_parser.core.exceptions import (
     RegexFunctionUnexpectedError,
     RegexPatternMatchError,
 )
-from schema_parser.core.utils import get_value
-
-from .base import BaseFunction
+from schema_parser.core.utils import get_value, set_value
+from schema_parser.functions.base import BaseFunction
 
 
 class RegexFunction(BaseFunction):
-    """Function for parsing a field using regular expression"""
+    """Function for parsing a field using regular expression.
 
-    def execute(self, data: dict[str, Any], pattern: str, field: str) -> dict[str, Any]:
+    When in_place=False (default), returns the matched groupdict.
+    When in_place=True, writes the groupdict to the field and returns the modified data.
+    """
+
+    def execute(
+        self,
+        data: dict[str, Any],
+        pattern: str,
+        field: str,
+        in_place: bool = False,
+    ) -> dict[str, Any]:
         try:
             field_value = get_value(data, field)
 
@@ -34,7 +43,11 @@ class RegexFunction(BaseFunction):
                     pattern=pattern,
                     field_value=field_value,
                 )
-            return match.groupdict()
+            groupdict = match.groupdict()
+            if in_place:
+                set_value(data, field, groupdict)
+                return data
+            return groupdict
 
         except (RegexFieldTypeError, RegexPatternMatchError):
             raise

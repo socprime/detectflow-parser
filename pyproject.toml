@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "schema-parser"
-version = "0.2.3"
+version = "0.3.2"
 description = "DSL pipeline for parsing and transforming events"
 requires-python = ">=3.10"
 dependencies = [

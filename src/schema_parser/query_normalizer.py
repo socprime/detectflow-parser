@@ -1,6 +1,8 @@
 import re
 from typing import Any
 
+from schema_parser.core.utils import extract_params
+
 
 class QueryNormalizer:
     """
@@ -22,53 +24,55 @@ class QueryNormalizer:
         }
 
     def json_normalize(self, query_part: str) -> dict[str, Any]:
-        # Match parse_json with field parameter and optional in_place parameter
-        # Handles: parse_json(field="raw") or
-        # parse_json(field="raw", in_place=True/true/False/false)
-        # Also handles whitespace: parse_json( field = "raw" , in_place = True )
-        regex = (
-            r"parse_json\s*\("
-            r"\s*field\s*=\s*\"(?P<field>[a-zA-Z0-9_\.\-]*)\""
-            r"(?:\s*,\s*in_place\s*=\s*(?P<in_place>True|False|true|false))?"
-            r"\s*\)"
-        )
-        match = re.search(regex, query_part, re.IGNORECASE)
-        if match:
-            result = {"field": match.group("field")}
-            in_place_str = match.group("in_place")
-            if in_place_str:
-                result["in_place"] = in_place_str.lower() == "true"
-            return {"parse_json": result}
-        return None
+        if not query_part.strip().startswith("parse_json"):
+            return None
+        params = extract_params(query_part.strip(), "parse_json")
+        if params is None:
+            return None
+        allowed_params = {"field", "in_place"}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {"field": params["field"]}
+        if "in_place" in params:
+            value = params["in_place"]
+            if isinstance(value, bool):
+                result["in_place"] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result["in_place"] = value.lower() == "true"
+            else:
+                return None
+        return {"parse_json": result}
 
     def regex_normalize(self, query_part: str) -> dict[str, Any]:
-        # Match regex with pattern and field parameters
-        # Handles both orders: regex(pattern="...", field="field_name")
-        # or regex(field="field_name", pattern="...")
-        # Also handles whitespace around = and after commas
-        # Try pattern first, then field
-        regex1 = (
-            r"regex\s*\("
-            r"\s*pattern\s*=\s*\"(?P<pattern>.*?)\""
-            r"\s*,\s*field\s*=\s*\"(?P<field>[a-zA-Z0-9_\.\-]*)\""
-            r"\s*\)"
-        )
-        # Try field first, then pattern
-        regex2 = (
-            r"regex\s*\("
-            r"\s*field\s*=\s*\"(?P<field>[a-zA-Z0-9_\.\-]*)\""
-            r"\s*,\s*pattern\s*=\s*\"(?P<pattern>.*?)\""
-            r"\s*\)"
-        )
-        match = re.search(regex1, query_part) or re.search(regex2, query_part)
-        if match:
-            return {
-                "regex": {
-                    "pattern": match.group("pattern"),
-                    "field": match.group("field"),
-                }
-            }
-        return None
+        # Extract all params from regex(...) and validate required ones (pattern, field).
+        # Handles any order and optional in_place (True/False).
+        if not query_part.strip().startswith("regex"):
+            return None
+        params = extract_params(query_part.strip(), "regex")
+        if params is None:
+            return None
+        allowed_params = {"pattern", "field", "in_place"}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "pattern" not in params or "field" not in params:
+            return None
+        if not isinstance(params["pattern"], str) or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {
+            "pattern": params["pattern"],
+            "field": params["field"],
+        }
+        if "in_place" in params:
+            value = params["in_place"]
+            if isinstance(value, bool):
+                result["in_place"] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result["in_place"] = value.lower() == "true"
+            else:
+                return None
+        return {"regex": result}
 
     def rename_normalize(self, query_part: str) -> dict[str, Any]:
         # Match rename with from and to parameters
@@ -161,7 +165,7 @@ class QueryNormalizer:
     def parse_query(self, parser_query: str):
         parser_query = self._strip_comments(parser_query)
         normalized_query: dict[str, Any] = {"steps": [], "args": {}}
-        for query_part in parser_query.split("|"):
+        for query_part in self._split_by_pipe(parser_query):
             query_part = query_part.strip()
             if not query_part:
                 continue
@@ -170,6 +174,46 @@ class QueryNormalizer:
                 normalized_query["steps"].append(function_name)
                 normalized_query["args"].update(result)
         return normalized_query
+
+    @staticmethod
+    def _split_by_pipe(query: str) -> list[str]:
+        """
+        Split query by pipe characters that are outside of quoted strings.
+
+        Pipe characters inside double-quoted strings (e.g. in regex patterns)
+        are preserved as part of the string value rather than treated as
+        function separators.
+        """
+        parts: list[str] = []
+        current: list[str] = []
+        inside_string = False
+        escape_next = False
+
+        for char in query:
+            if escape_next:
+                current.append(char)
+                escape_next = False
+                continue
+
+            if char == "\\":
+                current.append(char)
+                escape_next = True
+                continue
+
+            if char == '"':
+                inside_string = not inside_string
+                current.append(char)
+                continue
+
+            if char == "|" and not inside_string:
+                parts.append("".join(current))
+                current = []
+                continue
+
+            current.append(char)
+
+        parts.append("".join(current))
+        return parts
 
     @staticmethod
     def _strip_comments(query: str) -> str:
