@@ -102,6 +102,7 @@ Extracts data from a field using a regular expression pattern.
 **Parameters:**
 - `pattern` (required): Regular expression pattern with named groups
 - `field` (required): Name of the field to apply the regex to. Supports nested paths (e.g., `"event.log"`).
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the matched groupdict and returns the modified data dictionary. If `False`, returns only the matched groupdict.
 
 **Examples:**
 ```python
@@ -113,9 +114,43 @@ regex(field="log", pattern="^(?P<ip>\\S+) .*")
 
 # Apply regex to nested field
 regex(field="event.log", pattern="^(?P<ip>\\S+) .*")
+
+# Regex in place (replaces field with matched groups)
+regex(field="log", pattern="^(?P<ip>\\S+) .*", in_place=True)
+
+# Case-insensitive boolean values are supported
+regex(field="log", pattern="^(?P<ip>\\S+) .*", in_place=true)
 ```
 
-**Returns:** Dictionary with named groups from the regex pattern
+**`in_place` examples:**
+
+Without `in_place` (default — returns only the matched groups):
+```python
+# Input:  {"log": "192.168.1.1 - GET /api"}
+# Query:  regex(field="log", pattern="^(?P<ip>\\S+) .*")
+# Output: {"ip": "192.168.1.1"}
+```
+
+With `in_place=True` (replaces the field value with matched groups):
+```python
+# Input:  {"log": "192.168.1.1 - GET /api", "other": "value"}
+# Query:  regex(field="log", pattern="^(?P<ip>\\S+) .*", in_place=True)
+# Output: {"log": {"ip": "192.168.1.1"}, "other": "value"}
+```
+
+With `in_place=True` on a nested field:
+```python
+# Input:  {"event": {"raw": "192.168.1.1 - GET /api"}, "type": "access"}
+# Query:  regex(field="event.raw", pattern="^(?P<ip>\\S+) .*", in_place=True)
+# Output: {"event": {"raw": {"ip": "192.168.1.1"}}, "type": "access"}
+```
+
+**Behavior:**
+- When `in_place=False`: Returns only the matched groupdict
+- When `in_place=True`: Replaces the field value with the matched groupdict and returns the modified data dictionary
+- Raises `RegexPatternMatchError` if the field is missing or the pattern doesn't match
+- Raises `RegexFieldTypeError` if the field value is not a string
+
 
 ### `rename`
 
