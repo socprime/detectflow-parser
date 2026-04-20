@@ -33,16 +33,22 @@ class ParserManager:
         flatten: bool = False,
     ) -> dict:
         steps = parser_config["steps"]
-        args = parser_config["args"]
+        legacy_args = parser_config.get("args", {})
         result = copy.deepcopy(event)
 
         try:
             for step in steps:
-                step_function = self.core_functions.get(step)
-                if not step_function:
-                    raise ValueError(f"Function {step} not found")
+                if isinstance(step, str):
+                    function_name = step
+                    step_args = legacy_args.get(step, {})
+                else:
+                    function_name = step["function_name"]
+                    step_args = step.get("args", {})
 
-                step_args = args.get(step, {})
+                step_function = self.core_functions.get(function_name)
+                if not step_function:
+                    raise ValueError(f"Function {function_name} not found")
+
                 result = step_function.execute(data=result, **step_args)
 
             if flatten:

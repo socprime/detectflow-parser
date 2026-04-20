@@ -23,7 +23,7 @@ class QueryNormalizer:
             "extract": self.extract_normalize,
         }
 
-    def json_normalize(self, query_part: str) -> dict[str, Any]:
+    def json_normalize(self, query_part: str) -> dict[str, Any] | None:
         if not query_part.strip().startswith("parse_json"):
             return None
         params = extract_params(query_part.strip(), "parse_json")
@@ -43,9 +43,9 @@ class QueryNormalizer:
                 result["in_place"] = value.lower() == "true"
             else:
                 return None
-        return {"parse_json": result}
+        return result
 
-    def regex_normalize(self, query_part: str) -> dict[str, Any]:
+    def regex_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Extract all params from regex(...) and validate required ones (pattern, field).
         # Handles any order and optional in_place (True/False).
         if not query_part.strip().startswith("regex"):
@@ -72,9 +72,9 @@ class QueryNormalizer:
                 result["in_place"] = value.lower() == "true"
             else:
                 return None
-        return {"regex": result}
+        return result
 
-    def rename_normalize(self, query_part: str) -> dict[str, Any]:
+    def rename_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Match rename with from and to parameters
         # Note: execute method expects from_field and to_field
         # Also handles whitespace around = and after commas
@@ -87,22 +87,20 @@ class QueryNormalizer:
         match = re.search(regex, query_part)
         if match:
             return {
-                "rename": {
-                    "from_field": match.group("from"),
-                    "to_field": match.group("to"),
-                }
+                "from_field": match.group("from"),
+                "to_field": match.group("to"),
             }
         return None
 
-    def drop_normalize(self, query_part: str) -> dict[str, Any]:
+    def drop_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Also handles whitespace around = and parentheses
         regex = r"drop\s*\(\s*fields\s*=\s*\"(?P<fields>[a-zA-Z0-9_\.\-]*)\"\s*\)"
         match = re.search(regex, query_part)
         if match:
-            return {"drop": {"fields": match.group("fields")}}
+            return {"fields": match.group("fields")}
         return None
 
-    def set_normalize(self, query_part: str) -> dict[str, Any]:
+    def set_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Match set with field and value parameters
         # Note: value can be any string, not just alphanumeric
         # Also handles whitespace around = and after commas
@@ -115,14 +113,12 @@ class QueryNormalizer:
         match = re.search(regex, query_part)
         if match:
             return {
-                "set": {
-                    "field": match.group("field"),
-                    "value": match.group("value"),
-                }
+                "field": match.group("field"),
+                "value": match.group("value"),
             }
         return None
 
-    def parse_win_event_log_normalize(self, query_part: str) -> dict[str, Any]:
+    def parse_win_event_log_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Match parse_win_event_log with field parameter
         # Handles: parse_win_event_log(field="log_text")
         # Also handles whitespace around = and parentheses
@@ -133,10 +129,10 @@ class QueryNormalizer:
         )
         match = re.search(regex, query_part)
         if match:
-            return {"parse_win_event_log": {"field": match.group("field")}}
+            return {"field": match.group("field")}
         return None
 
-    def extract_normalize(self, query_part: str) -> dict[str, Any]:
+    def extract_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Match extract with field parameter
         # Handles: extract(field="user") or extract(field="winlog.event_data")
         # Also handles whitespace around = and parentheses
@@ -147,7 +143,7 @@ class QueryNormalizer:
         )
         match = re.search(regex, query_part)
         if match:
-            return {"extract": {"field": match.group("field")}}
+            return {"field": match.group("field")}
         return None
 
     def normalize_query_part(self, query_part: str) -> tuple[str, dict[str, Any] | None]:
@@ -162,17 +158,21 @@ class QueryNormalizer:
                     return function_name, None
         return None, None
 
-    def parse_query(self, parser_query: str):
+    def parse_query(self, parser_query: str) -> dict[str, list[dict[str, Any]]]:
         parser_query = self._strip_comments(parser_query)
-        normalized_query: dict[str, Any] = {"steps": [], "args": {}}
+        normalized_query: dict[str, list[dict[str, Any]]] = {"steps": []}
         for query_part in self._split_by_pipe(parser_query):
             query_part = query_part.strip()
             if not query_part:
                 continue
             function_name, result = self.normalize_query_part(query_part)
             if result:
-                normalized_query["steps"].append(function_name)
-                normalized_query["args"].update(result)
+                normalized_query["steps"].append(
+                    {
+                        "function_name": function_name,
+                        "args": result,
+                    }
+                )
         return normalized_query
 
     @staticmethod

@@ -185,7 +185,7 @@ def _parse_boolean(text: str, pos: int) -> tuple[bool | None, int]:
 
 def _skip_whitespace(text: str, pos: int) -> int:
     """Advance pos past whitespace."""
-    while pos < len(text) and text[pos] in " \t":
+    while pos < len(text) and text[pos] in " \t\n":
         pos += 1
     return pos
 
