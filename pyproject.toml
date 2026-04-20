@@ -4,12 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "schema-parser"
-version = "0.3.2"
+version = "0.3.4"
 description = "DSL pipeline for parsing and transforming events"
 requires-python = ">=3.10"
 dependencies = [
     "flatten-dict>=0.4.2",
     "orjson>=3.9.0",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -33,4 +34,3 @@ select = ["E", "F", "I", "N", "W"]
 dev = [
     "pytest>=9.0.1",
 ]
-

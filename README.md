@@ -48,15 +48,21 @@ result = manager.configured_parser(event, parser_config)
 
 ### Configured Parser
 
-You can also use a pre-configured parser dictionary:
+You can also use a pre-configured parser dictionary. This is the same normalized
+shape returned by `manager.query_parser(...)`:
 
 ```python
 parser_config = {
-    "steps": ["parse_json", "rename"],
-    "args": {
-        "parse_json": {"field": "raw", "in_place": True},
-        "rename": {"from_field": "raw", "to_field": "data"}
-    }
+    "steps": [
+        {
+            "function_name": "parse_json",
+            "args": {"field": "raw", "in_place": True},
+        },
+        {
+            "function_name": "rename",
+            "args": {"from_field": "raw", "to_field": "data"},
+        },
+    ]
 }
 
 result = manager.configured_parser(event, parser_config)
@@ -150,7 +156,6 @@ With `in_place=True` on a nested field:
 - When `in_place=True`: Replaces the field value with the matched groupdict and returns the modified data dictionary
 - Raises `RegexPatternMatchError` if the field is missing or the pattern doesn't match
 - Raises `RegexFieldTypeError` if the field value is not a string
-
 
 ### `rename`
 

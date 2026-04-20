@@ -3,6 +3,10 @@ import pytest
 from schema_parser.manager import ParserManager
 
 
+def parser_step(function_name, **args):
+    return {"function_name": function_name, "args": args}
+
+
 class TestParserManagerDeepCopy:
     """Tests to ensure original event is not modified when using configured_parser"""
 
@@ -15,8 +19,7 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "user"}},
+            "steps": [parser_step("extract", field="user")],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -41,10 +44,9 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {
-                "extract": {"field": "invalid_field"},  # Will raise error - not a dict
-            },
+            "steps": [
+                parser_step("extract", field="invalid_field"),  # Will raise error - not a dict
+            ],
         }
 
         # Extract will fail because invalid_field is not a dictionary
@@ -70,8 +72,7 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "data"}},
+            "steps": [parser_step("extract", field="data")],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -93,11 +94,10 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract", "set"],
-            "args": {
-                "extract": {"field": "user"},
-                "set": {"field": "status", "value": "active"},
-            },
+            "steps": [
+                parser_step("extract", field="user"),
+                parser_step("set", field="status", value="active"),
+            ],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -124,10 +124,9 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {
-                "extract": {"field": "invalid_field"},  # Will raise error - not a dict
-            },
+            "steps": [
+                parser_step("extract", field="invalid_field"),  # Will raise error - not a dict
+            ],
         }
 
         result = manager.configured_parser(original_event, parser_config, suppress_errors=True)
@@ -153,8 +152,7 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "user"}},
+            "steps": [parser_step("extract", field="user")],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -176,8 +174,7 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "data"}},
+            "steps": [parser_step("extract", field="data")],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -206,8 +203,7 @@ class TestParserManagerDeepCopy:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "level1"}},
+            "steps": [parser_step("extract", field="level1")],
         }
 
         result = manager.configured_parser(original_event, parser_config)
@@ -236,10 +232,9 @@ class TestParserManagerDeepCopy:
 
         # Extract will fail because invalid_field is not a dict
         parser_config = {
-            "steps": ["extract"],
-            "args": {
-                "extract": {"field": "invalid_field"},  # Will fail - not a dict
-            },
+            "steps": [
+                parser_step("extract", field="invalid_field"),  # Will fail - not a dict
+            ],
         }
 
         with pytest.raises(ValueError):
@@ -270,7 +265,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result = manager.configured_parser(event, parser_config, flatten=False)
@@ -290,7 +284,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -315,8 +308,7 @@ class TestParserManagerFlatten:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {"extract": {"field": "user"}},
+            "steps": [parser_step("extract", field="user")],
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -340,11 +332,10 @@ class TestParserManagerFlatten:
         }
 
         parser_config = {
-            "steps": ["extract", "set"],
-            "args": {
-                "extract": {"field": "user"},
-                "set": {"field": "status", "value": "active"},
-            },
+            "steps": [
+                parser_step("extract", field="user"),
+                parser_step("set", field="status", value="active"),
+            ],
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -376,7 +367,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -400,7 +390,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -421,7 +410,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result_not_flattened = manager.configured_parser(event, parser_config, flatten=False)
@@ -445,10 +433,9 @@ class TestParserManagerFlatten:
         }
 
         parser_config = {
-            "steps": ["extract"],
-            "args": {
-                "extract": {"field": "invalid_field"},  # Will raise error
-            },
+            "steps": [
+                parser_step("extract", field="invalid_field"),  # Will raise error
+            ],
         }
 
         result = manager.configured_parser(event, parser_config, suppress_errors=True, flatten=True)
@@ -466,10 +453,7 @@ class TestParserManagerFlatten:
         }
 
         parser_config = {
-            "steps": ["set"],
-            "args": {
-                "set": {"field": "user.profile.theme", "value": "dark"},
-            },
+            "steps": [parser_step("set", field="user.profile.theme", value="dark")],
         }
 
         result = manager.configured_parser(event, parser_config, flatten=True)
@@ -490,7 +474,6 @@ class TestParserManagerFlatten:
 
         parser_config = {
             "steps": [],
-            "args": {},
         }
 
         result = manager.configured_parser(original_event, parser_config, flatten=True)
@@ -503,3 +486,65 @@ class TestParserManagerFlatten:
         # Result should be flattened
         assert "user.name" in result
         assert result["user.name"] == "John"
+
+
+class TestDuplicateSteps:
+    """
+    Regression tests for duplicate function names in a single pipeline.
+
+    Before the steps-list-of-dicts change, args were stored in a flat dict keyed
+    by function name, so the second rename silently overwrote the first one's args
+    and neither rename executed with the correct arguments.
+    """
+
+    def test_two_renames_via_configured_parser(self):
+        """Both rename steps execute with their own args, not each other's."""
+        manager = ParserManager()
+        event = {"first": "a", "second": "b", "other": "preserved"}
+
+        parser_config = {
+            "steps": [
+                parser_step("rename", from_field="first", to_field="renamed_first"),
+                parser_step("rename", from_field="second", to_field="renamed_second"),
+            ],
+        }
+
+        result = manager.configured_parser(event, parser_config)
+
+        assert "first" not in result
+        assert "second" not in result
+        assert result["renamed_first"] == "a"
+        assert result["renamed_second"] == "b"
+        assert result["other"] == "preserved"
+
+    def test_two_renames_via_query_parser(self):
+        """End-to-end: two renames in a query string both apply correctly."""
+        manager = ParserManager()
+        event = {"first": "a", "second": "b", "other": "preserved"}
+
+        query = (
+            'rename(from="first", to="renamed_first") | rename(from="second", to="renamed_second")'
+        )
+        parser_config = manager.query_parser(query)
+        result = manager.configured_parser(event, parser_config)
+
+        assert "first" not in result
+        assert "second" not in result
+        assert result["renamed_first"] == "a"
+        assert result["renamed_second"] == "b"
+        assert result["other"] == "preserved"
+
+    def test_two_renames_second_depends_on_first(self):
+        """Second rename can target a field produced by the first rename."""
+        manager = ParserManager()
+        event = {"original": "value"}
+
+        query = (
+            'rename(from="original", to="intermediate") | rename(from="intermediate", to="final")'
+        )
+        parser_config = manager.query_parser(query)
+        result = manager.configured_parser(event, parser_config)
+
+        assert "original" not in result
+        assert "intermediate" not in result
+        assert result["final"] == "value"

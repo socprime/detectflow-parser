@@ -17,9 +17,7 @@ class TestParseJson:
         query = 'parse_json(field="raw")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert "in_place" not in result["args"]["parse_json"]
+        assert result["steps"] == [{"function_name": "parse_json", "args": {"field": "raw"}}]
 
     def test_parse_json_with_in_place_true(self):
         """Test parse_json with in_place=True"""
@@ -27,9 +25,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place=True)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
 
     def test_parse_json_with_in_place_lowercase_true(self):
         """Test parse_json with in_place=true (lowercase)"""
@@ -37,9 +38,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place=true)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
 
     def test_parse_json_with_in_place_false(self):
         """Test parse_json with in_place=False"""
@@ -47,9 +51,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place=False)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is False
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": False},
+            }
+        ]
 
     def test_parse_json_with_in_place_lowercase_false(self):
         """Test parse_json with in_place=false (lowercase)"""
@@ -57,9 +64,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place=false)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is False
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": False},
+            }
+        ]
 
     def test_parse_json_with_whitespace(self):
         """Test parse_json with extra whitespace"""
@@ -67,9 +77,12 @@ class TestParseJson:
         query = 'parse_json( field = "raw" , in_place = True )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
 
     def test_parse_json_with_dotted_field_name(self):
         """Test parse_json with dotted field name"""
@@ -77,9 +90,7 @@ class TestParseJson:
         query = 'parse_json(field="event.raw")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "event.raw"
-        assert "in_place" not in result["args"]["parse_json"]
+        assert result["steps"] == [{"function_name": "parse_json", "args": {"field": "event.raw"}}]
 
     def test_parse_json_with_deeply_nested_field_name(self):
         """Test parse_json with deeply nested dotted field name"""
@@ -87,9 +98,12 @@ class TestParseJson:
         query = 'parse_json(field="level1.level2.json_field", in_place=True)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "level1.level2.json_field"
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "level1.level2.json_field", "in_place": True},
+            }
+        ]
 
     def test_parse_json_reversed_param_order(self):
         """Test parse_json with in_place before field"""
@@ -97,9 +111,12 @@ class TestParseJson:
         query = 'parse_json(in_place=True, field="raw")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
 
     def test_parse_json_quoted_boolean_true(self):
         """Test parse_json with in_place="true" (quoted string coerced to bool)"""
@@ -107,8 +124,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place="true")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
 
     def test_parse_json_quoted_boolean_false(self):
         """Test parse_json with in_place="false" (quoted string coerced to bool)"""
@@ -116,8 +137,12 @@ class TestParseJson:
         query = 'parse_json(field="raw", in_place="false")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json"]
-        assert result["args"]["parse_json"]["in_place"] is False
+        assert result["steps"] == [
+            {
+                "function_name": "parse_json",
+                "args": {"field": "raw", "in_place": False},
+            }
+        ]
 
     def test_parse_json_invalid_quoted_boolean_rejected(self):
         """Test parse_json with in_place="something" is rejected"""
@@ -159,9 +184,12 @@ class TestRegex:
         query = 'regex(pattern="^test", field="raw")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["field"] == "raw"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            }
+        ]
 
     def test_regex_field_first(self):
         """Test regex with field parameter first"""
@@ -169,9 +197,12 @@ class TestRegex:
         query = 'regex(field="raw", pattern="^test")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["field"] == "raw"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            }
+        ]
 
     def test_regex_with_complex_pattern(self):
         """Test regex with complex pattern including escaped characters"""
@@ -179,10 +210,11 @@ class TestRegex:
         query = 'regex(field="log", pattern="^(?P<ip>\\S+) .* \\[(?P<time>[^\\]]+)\\]")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert "ip" in result["args"]["regex"]["pattern"]
-        assert "time" in result["args"]["regex"]["pattern"]
-        assert result["args"]["regex"]["field"] == "log"
+        assert len(result["steps"]) == 1
+        assert result["steps"][0]["function_name"] == "regex"
+        assert "ip" in result["steps"][0]["args"]["pattern"]
+        assert "time" in result["steps"][0]["args"]["pattern"]
+        assert result["steps"][0]["args"]["field"] == "log"
 
     def test_regex_with_whitespace(self):
         """Test regex with extra whitespace"""
@@ -190,9 +222,12 @@ class TestRegex:
         query = 'regex( pattern = "^test" , field = "raw" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["field"] == "raw"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            }
+        ]
 
     def test_regex_with_dotted_field_name(self):
         """Test regex with dotted field name"""
@@ -200,9 +235,12 @@ class TestRegex:
         query = 'regex(field="event.log", pattern="^(?P<ip>\\S+) .*")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^(?P<ip>\\S+) .*"
-        assert result["args"]["regex"]["field"] == "event.log"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^(?P<ip>\\S+) .*", "field": "event.log"},
+            }
+        ]
 
     def test_regex_with_dotted_field_name_pattern_first(self):
         """Test regex with dotted field name when pattern comes first"""
@@ -210,9 +248,12 @@ class TestRegex:
         query = 'regex(pattern="^(?P<ip>\\S+) .*", field="event.log")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^(?P<ip>\\S+) .*"
-        assert result["args"]["regex"]["field"] == "event.log"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^(?P<ip>\\S+) .*", "field": "event.log"},
+            }
+        ]
 
     def test_regex_with_deeply_nested_field_name(self):
         """Test regex with deeply nested dotted field name"""
@@ -220,9 +261,12 @@ class TestRegex:
         query = 'regex(field="level1.level2.log", pattern="^test")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["field"] == "level1.level2.log"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "level1.level2.log"},
+            }
+        ]
 
     def test_regex_with_pipe_in_pattern(self):
         """Test regex with pipe (alternation) in pattern"""
@@ -230,9 +274,12 @@ class TestRegex:
         query = 'regex(field="raw", pattern="(?P<proto>TCP|UDP)")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP)"
-        assert result["args"]["regex"]["field"] == "raw"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "(?P<proto>TCP|UDP)", "field": "raw"},
+            }
+        ]
 
     def test_regex_with_pipe_in_pattern_pattern_first(self):
         """Test regex with pipe in pattern when pattern comes first"""
@@ -240,9 +287,15 @@ class TestRegex:
         query = 'regex(pattern="(?P<level>INFO|WARN|ERROR)", field="log")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "(?P<level>INFO|WARN|ERROR)"
-        assert result["args"]["regex"]["field"] == "log"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {
+                    "pattern": "(?P<level>INFO|WARN|ERROR)",
+                    "field": "log",
+                },
+            }
+        ]
 
     def test_regex_with_multiple_pipes_in_pattern(self):
         """Test regex with multiple pipe alternations in pattern"""
@@ -250,9 +303,15 @@ class TestRegex:
         query = 'regex(field="msg", pattern="(?P<status>ok|warn|error|fatal)")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "(?P<status>ok|warn|error|fatal)"
-        assert result["args"]["regex"]["field"] == "msg"
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {
+                    "pattern": "(?P<status>ok|warn|error|fatal)",
+                    "field": "msg",
+                },
+            }
+        ]
 
     def test_regex_with_in_place_true(self):
         """Test regex with in_place=True"""
@@ -260,10 +319,16 @@ class TestRegex:
         query = 'regex(field="raw", pattern="^test", in_place=True)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {
+                    "field": "raw",
+                    "pattern": "^test",
+                    "in_place": True,
+                },
+            }
+        ]
 
     def test_regex_with_in_place_false(self):
         """Test regex with in_place=False"""
@@ -271,10 +336,16 @@ class TestRegex:
         query = 'regex(pattern="^test", field="raw", in_place=False)'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["field"] == "raw"
-        assert result["args"]["regex"]["in_place"] is False
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {
+                    "pattern": "^test",
+                    "field": "raw",
+                    "in_place": False,
+                },
+            }
+        ]
 
     def test_regex_with_in_place_whitespace(self):
         """Test regex with in_place and extra whitespace"""
@@ -282,10 +353,16 @@ class TestRegex:
         query = 'regex( field = "raw" , pattern = "^test" , in_place = True )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["regex"]["in_place"] is True
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {
+                    "field": "raw",
+                    "pattern": "^test",
+                    "in_place": True,
+                },
+            }
+        ]
 
     def test_regex_with_in_place_quoted_true(self):
         """Test regex with in_place="true" (quoted string)"""
@@ -293,8 +370,7 @@ class TestRegex:
         query = 'regex(field="raw", pattern="^test", in_place="true")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["in_place"] is True
+        assert result["steps"][0]["args"]["in_place"] is True
 
     def test_regex_with_in_place_quoted_false(self):
         """Test regex with in_place="false" (quoted string)"""
@@ -302,8 +378,7 @@ class TestRegex:
         query = 'regex(field="raw", pattern="^test", in_place="false")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert result["args"]["regex"]["in_place"] is False
+        assert result["steps"][0]["args"]["in_place"] is False
 
     def test_regex_with_in_place_invalid_string(self):
         """Test regex with in_place="something" (invalid) is rejected"""
@@ -319,8 +394,12 @@ class TestRegex:
         query = 'regex(field="raw", pattern="^test")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["regex"]
-        assert "in_place" not in result["args"]["regex"]
+        assert result["steps"] == [
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            }
+        ]
 
     def test_regex_missing_required_params_rejected(self):
         """Test regex with missing pattern or field is not normalized"""
@@ -359,11 +438,14 @@ class TestRegex:
         )
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "drop"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP)"
-        assert result["args"]["regex"]["field"] == "raw"
-        assert result["args"]["drop"]["fields"] == "temp"
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "regex",
+                "args": {"pattern": "(?P<proto>TCP|UDP)", "field": "raw"},
+            },
+            {"function_name": "drop", "args": {"fields": "temp"}},
+        ]
 
     def test_regex_complex_pattern_with_pipes_in_multiline_query(self):
         """Test regex with pipes in pattern inside a multiline query"""
@@ -375,9 +457,21 @@ class TestRegex:
         """
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "rename"]
-        assert result["args"]["regex"]["pattern"] == "^(?P<level>DEBUG|INFO|WARN|ERROR) (?P<msg>.*)"
-        assert result["args"]["regex"]["field"] == "raw"
+        assert result["steps"][0] == {
+            "function_name": "parse_json",
+            "args": {"field": "raw"},
+        }
+        assert result["steps"][1] == {
+            "function_name": "regex",
+            "args": {
+                "pattern": "^(?P<level>DEBUG|INFO|WARN|ERROR) (?P<msg>.*)",
+                "field": "raw",
+            },
+        }
+        assert result["steps"][2] == {
+            "function_name": "rename",
+            "args": {"from_field": "msg", "to_field": "message"},
+        }
 
 
 class TestRename:
@@ -389,9 +483,12 @@ class TestRename:
         query = 'rename(from="old_field", to="new_field")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["rename"]
-        assert result["args"]["rename"]["from_field"] == "old_field"
-        assert result["args"]["rename"]["to_field"] == "new_field"
+        assert result["steps"] == [
+            {
+                "function_name": "rename",
+                "args": {"from_field": "old_field", "to_field": "new_field"},
+            }
+        ]
 
     def test_rename_with_dotted_fields(self):
         """Test rename with dotted field names"""
@@ -399,9 +496,12 @@ class TestRename:
         query = 'rename(from="event.user", to="user.name")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["rename"]
-        assert result["args"]["rename"]["from_field"] == "event.user"
-        assert result["args"]["rename"]["to_field"] == "user.name"
+        assert result["steps"] == [
+            {
+                "function_name": "rename",
+                "args": {"from_field": "event.user", "to_field": "user.name"},
+            }
+        ]
 
     def test_rename_with_whitespace(self):
         """Test rename with extra whitespace"""
@@ -409,9 +509,12 @@ class TestRename:
         query = 'rename( from = "old" , to = "new" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["rename"]
-        assert result["args"]["rename"]["from_field"] == "old"
-        assert result["args"]["rename"]["to_field"] == "new"
+        assert result["steps"] == [
+            {
+                "function_name": "rename",
+                "args": {"from_field": "old", "to_field": "new"},
+            }
+        ]
 
 
 class TestDrop:
@@ -423,8 +526,7 @@ class TestDrop:
         query = 'drop(fields="field_name")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["drop"]
-        assert result["args"]["drop"]["fields"] == "field_name"
+        assert result["steps"] == [{"function_name": "drop", "args": {"fields": "field_name"}}]
 
     def test_drop_with_dotted_field(self):
         """Test drop with dotted field name"""
@@ -432,8 +534,7 @@ class TestDrop:
         query = 'drop(fields="event.count")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["drop"]
-        assert result["args"]["drop"]["fields"] == "event.count"
+        assert result["steps"] == [{"function_name": "drop", "args": {"fields": "event.count"}}]
 
     def test_drop_with_whitespace(self):
         """Test drop with extra whitespace"""
@@ -441,8 +542,7 @@ class TestDrop:
         query = 'drop( fields = "field_name" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["drop"]
-        assert result["args"]["drop"]["fields"] == "field_name"
+        assert result["steps"] == [{"function_name": "drop", "args": {"fields": "field_name"}}]
 
 
 class TestSet:
@@ -454,9 +554,12 @@ class TestSet:
         query = 'set(field="event.type", value="http_access")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set"]
-        assert result["args"]["set"]["field"] == "event.type"
-        assert result["args"]["set"]["value"] == "http_access"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "event.type", "value": "http_access"},
+            }
+        ]
 
     def test_set_with_special_characters_in_value(self):
         """Test set with special characters in value"""
@@ -464,9 +567,12 @@ class TestSet:
         query = 'set(field="path", value="/usr/bin/test")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set"]
-        assert result["args"]["set"]["field"] == "path"
-        assert result["args"]["set"]["value"] == "/usr/bin/test"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "path", "value": "/usr/bin/test"},
+            }
+        ]
 
     def test_set_with_spaces_in_value(self):
         """Test set with spaces in value"""
@@ -474,9 +580,12 @@ class TestSet:
         query = 'set(field="message", value="Hello World")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set"]
-        assert result["args"]["set"]["field"] == "message"
-        assert result["args"]["set"]["value"] == "Hello World"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "message", "value": "Hello World"},
+            }
+        ]
 
     def test_set_with_whitespace(self):
         """Test set with extra whitespace"""
@@ -484,9 +593,12 @@ class TestSet:
         query = 'set( field = "type" , value = "test" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set"]
-        assert result["args"]["set"]["field"] == "type"
-        assert result["args"]["set"]["value"] == "test"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "type", "value": "test"},
+            }
+        ]
 
 
 class TestExtract:
@@ -498,8 +610,7 @@ class TestExtract:
         query = 'extract(field="user")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["extract"]
-        assert result["args"]["extract"]["field"] == "user"
+        assert result["steps"] == [{"function_name": "extract", "args": {"field": "user"}}]
 
     def test_extract_with_whitespace(self):
         """Test extract with extra whitespace"""
@@ -507,8 +618,7 @@ class TestExtract:
         query = 'extract( field = "user" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["extract"]
-        assert result["args"]["extract"]["field"] == "user"
+        assert result["steps"] == [{"function_name": "extract", "args": {"field": "user"}}]
 
     def test_extract_with_dots_in_field_name(self):
         """Test extract with field name containing dots (treated as simple field name)"""
@@ -516,8 +626,12 @@ class TestExtract:
         query = 'extract(field="winlog.event_data")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["extract"]
-        assert result["args"]["extract"]["field"] == "winlog.event_data"
+        assert result["steps"] == [
+            {
+                "function_name": "extract",
+                "args": {"field": "winlog.event_data"},
+            }
+        ]
 
 
 class TestParseWinEventLog:
@@ -529,8 +643,12 @@ class TestParseWinEventLog:
         query = 'parse_win_event_log(field="log_text")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_win_event_log"]
-        assert result["args"]["parse_win_event_log"]["field"] == "log_text"
+        assert result["steps"] == [
+            {
+                "function_name": "parse_win_event_log",
+                "args": {"field": "log_text"},
+            }
+        ]
 
     def test_parse_win_event_log_with_whitespace(self):
         """Test parse_win_event_log with extra whitespace"""
@@ -538,8 +656,12 @@ class TestParseWinEventLog:
         query = 'parse_win_event_log( field = "log_text" )'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_win_event_log"]
-        assert result["args"]["parse_win_event_log"]["field"] == "log_text"
+        assert result["steps"] == [
+            {
+                "function_name": "parse_win_event_log",
+                "args": {"field": "log_text"},
+            }
+        ]
 
 
 class TestMultipleFunctions:
@@ -555,11 +677,17 @@ class TestMultipleFunctions:
         )
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "rename"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["rename"]["from_field"] == "old"
-        assert result["args"]["rename"]["to_field"] == "new"
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            },
+            {
+                "function_name": "rename",
+                "args": {"from_field": "old", "to_field": "new"},
+            },
+        ]
 
     def test_multiple_functions_with_whitespace(self):
         """Test query with multiple functions and extra whitespace"""
@@ -571,10 +699,14 @@ class TestMultipleFunctions:
         """
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "drop"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["drop"]["fields"] == "temp"  # noqa: E501
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            },
+            {"function_name": "drop", "args": {"fields": "temp"}},
+        ]
 
     def test_all_functions_in_sequence(self):
         """Test all functions in a single query"""
@@ -591,13 +723,33 @@ class TestMultipleFunctions:
         result = normalizer.parse_query(query)
 
         assert len(result["steps"]) == 7
-        assert "parse_json" in result["steps"]
-        assert "regex" in result["steps"]
-        assert "rename" in result["steps"]
-        assert "drop" in result["steps"]
-        assert "set" in result["steps"]
-        assert "extract" in result["steps"]
-        assert "parse_win_event_log" in result["steps"]
+        names = [s["function_name"] for s in result["steps"]]
+        assert names == [
+            "parse_json",
+            "regex",
+            "rename",
+            "drop",
+            "set",
+            "extract",
+            "parse_win_event_log",
+        ]
+
+    def test_duplicate_function_names_keep_separate_args(self):
+        """Test repeated functions preserve args per step"""
+        normalizer = QueryNormalizer()
+        query = 'rename(from="old_1", to="new_1") | rename(from="old_2", to="new_2")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "rename",
+                "args": {"from_field": "old_1", "to_field": "new_1"},
+            },
+            {
+                "function_name": "rename",
+                "args": {"from_field": "old_2", "to_field": "new_2"},
+            },
+        ]
 
 
 class TestEdgeCases:
@@ -609,7 +761,6 @@ class TestEdgeCases:
         result = normalizer.parse_query("")
 
         assert result["steps"] == []
-        assert result["args"] == {}
 
     def test_query_with_only_whitespace(self):
         """Test query with only whitespace"""
@@ -617,7 +768,6 @@ class TestEdgeCases:
         result = normalizer.parse_query("   \n  \t  ")
 
         assert result["steps"] == []
-        assert result["args"] == {}
 
     def test_query_with_empty_pipes(self):
         """Test query with empty pipe separators"""
@@ -625,9 +775,10 @@ class TestEdgeCases:
         query = 'parse_json(field="raw") || drop(fields="temp")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "drop"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["drop"]["fields"] == "temp"
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {"function_name": "drop", "args": {"fields": "temp"}},
+        ]
 
     def test_unknown_function(self):
         """Test query with unknown function"""
@@ -636,7 +787,6 @@ class TestEdgeCases:
         result = normalizer.parse_query(query)
 
         assert result["steps"] == []
-        assert result["args"] == {}
 
     def test_malformed_query(self):
         """Test malformed query"""
@@ -644,10 +794,8 @@ class TestEdgeCases:
         query = 'parse_json(field="raw"'
         result = normalizer.parse_query(query)
 
-        # Should not crash, but may not parse correctly
         assert isinstance(result, dict)
         assert "steps" in result
-        assert "args" in result
 
     def test_query_with_missing_parameters(self):
         """Test query with missing required parameters"""
@@ -655,9 +803,7 @@ class TestEdgeCases:
         query = "parse_json()"
         result = normalizer.parse_query(query)
 
-        # Should not parse (returns None from normalize function)
         assert result["steps"] == []
-        assert result["args"] == {}
 
 
 class TestRealWorldExamples:
@@ -674,20 +820,24 @@ class TestRealWorldExamples:
         result = normalizer.parse_query(query)
 
         assert result["steps"] == [
-            "parse_json",
-            "regex",
-            "rename",
-            "drop",
-            "set",
+            {"function_name": "parse_json", "args": {"field": "payload"}},
+            {
+                "function_name": "regex",
+                "args": {"field": "raw", "pattern": "[a-zA-Z0-9.]+"},
+            },
+            {
+                "function_name": "rename",
+                "args": {
+                    "from_field": "event.user",
+                    "to_field": "user.name",
+                },
+            },
+            {"function_name": "drop", "args": {"fields": "event.count"}},
+            {
+                "function_name": "set",
+                "args": {"field": "event.type", "value": "http_access"},
+            },
         ]
-        assert result["args"]["parse_json"]["field"] == "payload"
-        assert result["args"]["regex"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "[a-zA-Z0-9.]+"
-        assert result["args"]["rename"]["from_field"] == "event.user"
-        assert result["args"]["rename"]["to_field"] == "user.name"
-        assert result["args"]["drop"]["fields"] == "event.count"
-        assert result["args"]["set"]["field"] == "event.type"
-        assert result["args"]["set"]["value"] == "http_access"
 
     def test_example_from_query_normalizer_main(self):
         """Test example query from query_normalizer.py __main__"""
@@ -701,21 +851,25 @@ class TestRealWorldExamples:
         """
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == [
-            "parse_json",
-            "regex",
-            "rename",
-            "drop",
-            "set",
-        ]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert "client_ip" in result["args"]["regex"]["pattern"]
-        assert "time" in result["args"]["regex"]["pattern"]
-        assert result["args"]["rename"]["from_field"] == "event.user"
-        assert result["args"]["rename"]["to_field"] == "user.name"
-        assert result["args"]["drop"]["fields"] == "event.count"
-        assert result["args"]["set"]["field"] == "event.type"
-        assert result["args"]["set"]["value"] == "http_access"
+        assert len(result["steps"]) == 5
+        assert result["steps"][0] == {
+            "function_name": "parse_json",
+            "args": {"field": "raw"},
+        }
+        assert "client_ip" in result["steps"][1]["args"]["pattern"]
+        assert "time" in result["steps"][1]["args"]["pattern"]
+        assert result["steps"][2] == {
+            "function_name": "rename",
+            "args": {"from_field": "event.user", "to_field": "user.name"},
+        }
+        assert result["steps"][3] == {
+            "function_name": "drop",
+            "args": {"fields": "event.count"},
+        }
+        assert result["steps"][4] == {
+            "function_name": "set",
+            "args": {"field": "event.type", "value": "http_access"},
+        }
 
 
 class TestStripComments:
@@ -839,9 +993,12 @@ rename(from="old", to="new")"""
         query = 'set(field="path", value="/usr/bin#test")'
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set"]
-        assert result["args"]["set"]["field"] == "path"
-        assert result["args"]["set"]["value"] == "/usr/bin#test"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "path", "value": "/usr/bin#test"},
+            }
+        ]
 
     def test_integration_with_parse_query_comments(self):
         """Test integration: parse_query with comments"""
@@ -851,10 +1008,17 @@ rename(from="old", to="new")"""
 | set(field="type", value="test")"""
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "set"]
-        assert result["args"]["parse_json"]["field"] == "raw"
-        assert result["args"]["regex"]["pattern"] == "^test"
-        assert result["args"]["set"]["value"] == "test"
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "regex",
+                "args": {"pattern": "^test", "field": "raw"},
+            },
+            {
+                "function_name": "set",
+                "args": {"field": "type", "value": "test"},
+            },
+        ]
 
     def test_integration_complex_with_hash_and_comments(self):
         """Test integration: complex query with # in strings and comments"""
@@ -864,9 +1028,20 @@ rename(from="old", to="new")"""
 | set(field="url", value="http://example.com#fragment") # URL with fragment"""
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["set", "parse_json", "set"]
-        assert result["args"]["set"]["field"] == "url"
-        assert result["args"]["set"]["value"] == "http://example.com#fragment"
+        assert result["steps"] == [
+            {
+                "function_name": "set",
+                "args": {"field": "path", "value": "/usr/bin#test"},
+            },
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "set",
+                "args": {
+                    "field": "url",
+                    "value": "http://example.com#fragment",
+                },
+            },
+        ]
 
     def test_integration_pipe_in_regex_with_comments(self):
         """Test integration: pipe in regex pattern combined with comments"""
@@ -876,9 +1051,20 @@ rename(from="old", to="new")"""
 | set(field="type", value="network")"""
         result = normalizer.parse_query(query)
 
-        assert result["steps"] == ["parse_json", "regex", "set"]
-        assert result["args"]["regex"]["pattern"] == "(?P<proto>TCP|UDP|ICMP)"
-        assert result["args"]["set"]["value"] == "network"
+        assert result["steps"] == [
+            {"function_name": "parse_json", "args": {"field": "raw"}},
+            {
+                "function_name": "regex",
+                "args": {
+                    "pattern": "(?P<proto>TCP|UDP|ICMP)",
+                    "field": "raw",
+                },
+            },
+            {
+                "function_name": "set",
+                "args": {"field": "type", "value": "network"},
+            },
+        ]
 
 
 class TestExtractFuncBody:
@@ -1035,6 +1221,14 @@ class TestParseKeyValuePairs:
         result = _parse_key_value_pairs('  field = "raw" , pattern = "^test"  ')
         assert result == {"field": "raw", "pattern": "^test"}
 
+    def test_newline_after_comma_between_params(self):
+        result = _parse_key_value_pairs('field="raw",\npattern="^test"')
+        assert result == {"field": "raw", "pattern": "^test"}
+
+    def test_newlines_and_spaces_between_params(self):
+        result = _parse_key_value_pairs('field="raw", \n\t\n pattern="^test",\n in_place=True')
+        assert result == {"field": "raw", "pattern": "^test", "in_place": True}
+
     def test_empty_string_returns_empty_dict(self):
         result = _parse_key_value_pairs("")
         assert result == {}
@@ -1099,6 +1293,13 @@ class TestExtractParams:
         result = extract_params('regex(field="raw"', "regex")
         assert result is None
 
+    def test_multiline_args_inside_parens(self):
+        query = """regex(
+field="raw",
+pattern="^test")"""
+        result = extract_params(query, "regex")
+        assert result == {"field": "raw", "pattern": "^test"}
+
 
 class TestSplitByPipe:
     """Tests for _split_by_pipe static method"""
@@ -1144,3 +1345,84 @@ class TestSplitByPipe:
         normalizer = QueryNormalizer()
         result = normalizer._split_by_pipe('"a|b"|"c|d"')
         assert result == ['"a|b"', '"c|d"']
+
+
+class TestWhitespaces:
+    def test_line_delimiter_between_fields_in_one_function(self):
+        normalizer = QueryNormalizer()
+        query = """regex(field="raw",
+        pattern="^test")"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^test"}},
+        ]
+
+    def test_newline_after_opening_paren(self):
+        normalizer = QueryNormalizer()
+        query = """regex(
+        field="raw", pattern="^test")"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^test"}},
+        ]
+
+    def test_multiline_args_in_pipeline_step(self):
+        normalizer = QueryNormalizer()
+        query = """parse_json(field="raw") | regex(field="raw",
+        pattern="^x") | drop(fields="temp")"""
+        result = normalizer.parse_query(query)
+        assert len(result["steps"]) == 3
+        assert result["steps"][1] == {
+            "function_name": "regex",
+            "args": {"field": "raw", "pattern": "^x"},
+        }
+
+    def test_multiline_args_with_end_of_line_comment_after_first_arg(self):
+        normalizer = QueryNormalizer()
+        query = """regex(field="raw",  # field is the source
+        pattern="^test")"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^test"}},
+        ]
+
+    def test_multiline_args_with_full_line_comment_between_args(self):
+        normalizer = QueryNormalizer()
+        query = """regex(field="raw",
+        # pattern matches start of line
+        pattern="^test")"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^test"}},
+        ]
+
+    def test_multiline_args_comment_on_last_arg_line(self):
+        normalizer = QueryNormalizer()
+        query = """regex(field="raw",
+        pattern="^test")  # done"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^test"}},
+        ]
+
+    def test_multiline_args_hash_in_string_not_a_comment(self):
+        normalizer = QueryNormalizer()
+        query = """regex(field="raw",
+        pattern="^#not-a-comment")"""
+        result = normalizer.parse_query(query)
+        assert result["steps"] == [
+            {"function_name": "regex", "args": {"field": "raw", "pattern": "^#not-a-comment"}},
+        ]
+
+    def test_multiline_args_with_comments_in_pipeline(self):
+        normalizer = QueryNormalizer()
+        query = """parse_json(field="raw")  # step 1
+        | regex(field="raw",  # step 2a
+        pattern="^x")  # step 2b
+        | drop(fields="temp")"""
+        result = normalizer.parse_query(query)
+        assert len(result["steps"]) == 3
+        assert result["steps"][1] == {
+            "function_name": "regex",
+            "args": {"field": "raw", "pattern": "^x"},
+        }
