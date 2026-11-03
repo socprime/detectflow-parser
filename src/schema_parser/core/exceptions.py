@@ -48,3 +48,30 @@ class ParseJsonFunctionError(Exception):
         self.field = field
         self.field_value = field_value
         super().__init__(message)
+
+
+class ParseKvFunctionError(Exception):
+    """Error during key-value parsing"""
+
+    def __init__(self, message: str, field: str | None = None, field_value: str | None = None):
+        self.field = field
+        self.field_value = field_value
+        super().__init__(message)
+
+
+class ParseLeefFunctionError(Exception):
+    """Error during LEEF parsing"""
+
+    def __init__(self, message: str, field: str | None = None, field_value: str | None = None):
+        self.field = field
+        self.field_value = field_value
+        super().__init__(message)
+
+
+class ParseXmlFunctionError(Exception):
+    """Error during XML parsing"""
+
+    def __init__(self, message: str, field: str | None = None, field_value: str | None = None):
+        self.field = field
+        self.field_value = field_value
+        super().__init__(message)

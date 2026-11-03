@@ -101,6 +101,139 @@ parse_json(field="raw", in_place=true)
 - Silently ignores if field is missing, `None`, empty string `""`, empty array `[]`, or empty dict `{}`
 - Raises `ParseJsonFunctionError` if JSON parsing fails or parsed value is not a dict when `in_place=False`
 
+### `parse_kv`
+
+Parses delimiter-separated `key=value` pairs from a field. Tokens that are not valid KV pairs are skipped.
+
+**Parameters:**
+- `field` (required): Name of the field containing the KV string. Supports nested paths (e.g., `"event.original"`).
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the parsed dictionary. If `False`, returns only the parsed KV dictionary.
+- `delimiter` (optional, default: `|`): Separator between pairs. `"\t"`, `"\n"`, and `"\r"` are interpreted as tab/newline/carriage return.
+- `value_delimiter` (optional, default: `=`): Separator between key and value. `"\t"`, `"\n"`, and `"\r"` are interpreted as tab/newline/carriage return.
+
+**Examples:**
+```python
+# Parse pipe-separated KV and return the parsed dictionary
+parse_kv(field="raw")
+
+# Parse in place (replaces field with parsed dictionary)
+parse_kv(field="raw", in_place=True)
+
+# Custom field delimiter (tab-separated pairs)
+parse_kv(field="raw", delimiter="\\t")
+
+# Custom value delimiter (colon-separated key/value)
+parse_kv(field="raw", value_delimiter=":")
+```
+
+**Behavior:**
+- Splits on the field delimiter when it is followed by `key<value_delimiter>`
+- Uses the first value delimiter in each pair to separate key and value, so values may contain that character. Spaces around the value delimiter are allowed (`src = 1`)
+- Skips tokens that do not look like `key<value_delimiter>value`
+- Empty values such as `note=` are kept as empty strings
+- A trailing field delimiter after the last pair is dropped (`user=alice|` → `alice`)
+- `key<value_delimiter>` inside a value (for example `a=` in a URL) is not treated as a new field
+- Silently ignores if field is missing, `None`, empty string `""`, empty array `[]`, or empty dict `{}`
+- Raises `ParseKvFunctionError` if the field is not a string
+
+**Output Example:**
+
+```python
+# Input:  {"raw": "header|1.0|src=192.0.2.10|user=alice"}
+# Query:  parse_kv(field="raw")
+# Output: {"src": "192.0.2.10", "user": "alice"}
+```
+
+### `parse_leef`
+
+Parses a LEEF (Log Event Extended Format) event. The header is always `|`-separated. Extension `key=value` pairs are parsed the same way as `parse_kv`.
+
+**Parameters:**
+- `field` (required): Name of the field containing the LEEF string. Supports nested paths (e.g., `"event.original"`).
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the parsed dictionary. If `False`, returns only the parsed LEEF dictionary.
+- `delimiter` (optional, default: tab): Separator between extension pairs. If the event is LEEF 2.0 and the header declares a delimiter (`^`, `x09`, …), that value is used instead. Pipe-separated vendors (McAfee) must pass `delimiter="|"`.
+
+**Examples:**
+```python
+# IBM-style events (tab-separated extensions)
+parse_leef(field="raw")
+
+# McAfee Web Gateway and similar (pipe-separated extensions)
+parse_leef(field="raw", delimiter="|")
+
+# Nested field, in place
+parse_leef(field="event.original", delimiter="|", in_place=True)
+```
+
+**Behavior:**
+- Finds `LEEF:`, so a syslog prefix before the payload is ignored
+- Header fields: `leef_version`, `vendor`, `product`, `product_version`, `event_id`
+- Extension delimiter: LEEF 2.0 header field, then `delimiter`, then tab. It is not guessed from the payload
+- Extension pairs follow `parse_kv` (empty values kept, `=` inside values allowed)
+- Silently ignores if field is missing, `None`, empty string `""`, empty array `[]`, or empty dict `{}`
+- Raises `ParseLeefFunctionError` if the field is not a string or is not a LEEF event
+
+**Output Example:**
+
+```python
+# Input:  {"raw": "LEEF:1.0|McAfee|Web Gateway|12.2.23|0|src=10.1.25.86|usrName=USER1"}
+# Query:  parse_leef(field="raw", delimiter="|")
+# Output: {
+#     "leef_version": "1.0",
+#     "vendor": "McAfee",
+#     "product": "Web Gateway",
+#     "product_version": "12.2.23",
+#     "event_id": "0",
+#     "src": "10.1.25.86",
+#     "usrName": "USER1",
+# }
+```
+
+### `parse_xml`
+
+Parses an XML string into a nested dictionary.
+
+**Parameters:**
+- `field` (required): Name of the field containing the XML string. Supports nested paths (e.g., `"event.raw"`).
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the parsed dictionary. If `False`, returns only the parsed XML dictionary.
+
+**Examples:**
+```python
+parse_xml(field="raw")
+parse_xml(field="raw", in_place=True)
+parse_xml(field="event.raw", in_place=True)
+
+# Windows Event XML: turn EventData fields into top-level keys
+parse_xml(field="raw") | list_to_dict(field="Event.EventData.Data", key="@Name", value="#text") | extract(field="Event.EventData.Data")
+```
+
+Windows Event XML stores event fields as repeated `<Data Name="...">` elements. `parse_xml` leaves them as a list of `@Name` / `#text` objects; `list_to_dict` converts that list to a flat map, and `extract` promotes those keys to the top level.
+
+**Behavior:**
+- Root element name is the top-level key
+- Attributes become `@Name`-style keys; element text is `#text` when the element also has attributes
+- Repeated tags become lists
+- Namespaces are stripped
+- Missing or empty field is ignored
+- Raises `ParseXmlFunctionError` if the value is not a string, the XML is invalid, or it contains a DTD
+
+**Output Example:**
+
+```python
+# Input:  {"raw": '<Event><EventData><Data Name="User">alice</Data><Data Name="LogonType">3</Data></EventData></Event>'}
+# Query:  parse_xml(field="raw")
+# Output: {
+#     "Event": {
+#         "EventData": {
+#             "Data": [
+#                 {"@Name": "User", "#text": "alice"},
+#                 {"@Name": "LogonType", "#text": "3"},
+#             ]
+#         }
+#     }
+# }
+```
+
 ### `regex`
 
 Extracts data from a field using a regular expression pattern.
@@ -209,6 +342,42 @@ extract(field="winlog.event_data")
 - Empty dict `{}` is valid and will be extracted (field removed, nothing merged)
 - Raises an error only if field exists and is not a dictionary
 
+### `list_to_dict`
+
+Turns a list of objects into a dictionary using two fields as key and value. Always returns the full event, with that field replaced.
+
+```python
+# Before
+{"Data": [{"@Name": "User", "#text": "alice"}, {"@Name": "LogonType", "#text": "3"}]}
+
+# After list_to_dict(field="Data", key="@Name", value="#text")
+{"Data": {"User": "alice", "LogonType": "3"}}
+```
+
+**Parameters:**
+- `field` (required): Path to the list (or a single object). Supports nested paths.
+- `key` (required): Field used as the dictionary key.
+- `value` (required): Field used as the dictionary value.
+
+**Examples:**
+```python
+# Typical follow-up to parse_xml (path is on the parsed result)
+parse_xml(field="raw") | list_to_dict(field="Event.EventData.Data", key="@Name", value="#text")
+
+# Same idea when XML is kept in place — path stays under `raw`
+parse_xml(field="raw", in_place=True) | list_to_dict(field="raw.Event.EventData.Data", key="@Name", value="#text")
+
+# Any list of objects, not only XML
+list_to_dict(field="attrs", key="name", value="value")
+```
+
+**Behavior:**
+- A single object is treated as a one-item list
+- Duplicate keys keep the last value
+- Items without `key`, and non-dict items, are skipped
+- Missing or empty field is ignored
+- Raises `ValueError` if the field exists and is not a list or dict
+
 ### `drop`
 
 Removes one or more fields from the data dictionary.
@@ -255,6 +424,9 @@ Parses Windows Event Log text format (typically exported from Splunk or Windows 
 
 **Parameters:**
 - `field` (required): Name of the field containing the Windows Event Log text
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the parsed dictionary and keeps the other event fields (e.g. Splunk `_time`, `host`). If `False`, returns only the parsed dictionary.
+- `parse_header_time` (optional, default: `False`): If `True`, parses the first line (`MM/DD/YYYY HH:MM:SS AM/PM`) into `TimeCreated` as ISO 8601 without a timezone. This is the forwarder host's local time, so do not use it as the event timestamp (e.g. in `timestamp_fields`); use Splunk `_time` instead. An unrecognized first line is skipped without failing the parse.
+- `keep` (optional): Comma-separated fields of the input event (e.g. `"_time,host"`) to copy into the result as is, so they survive without `in_place`. Missing fields are ignored.
 
 **Input Format:**
 
@@ -290,7 +462,7 @@ Network Information:
 - Extracts the EventID from the `EventCode` field
 - Handles structured sections (e.g., "Subject:", "Network Information:")
 - Maps section fields to standardized field names based on event type
-- Skips the first line (timestamp)
+- Skips the first line (timestamp) unless `parse_header_time=True`
 - Handles multi-line values (continuation lines)
 
 **Returns:** Dictionary with parsed event fields. Field names are standardized based on the event type and section mapping.
@@ -299,6 +471,15 @@ Network Information:
 ```python
 # Basic usage
 parse_win_event_log(field="log_text")
+
+# Keep Splunk _time and host next to the parsed fields
+parse_win_event_log(field="_raw", keep="_time,host")
+
+# Keep all Splunk metadata (_time, host, ...) and lift parsed fields to the top level
+parse_win_event_log(field="_raw", in_place=True) | extract(field="_raw")
+
+# Also add the local header time as TimeCreated (ISO 8601, no timezone)
+parse_win_event_log(field="_raw", parse_header_time=True)
 
 # In a query chain
 query = """
@@ -338,6 +519,72 @@ For the input above, the function returns:
 - Fields outside of sections are preserved as-is
 - Empty logs return an empty dictionary
 - The parser handles various Windows Event Log formats and event types
+
+### `parse_wincollect_win_event_log`
+
+Parses Windows Event Log text as forwarded by WinCollect (`AgentDevice=WindowsLog`). WinCollect flattens the multi-line Windows Event Viewer text into a single-line, tab- and double-space-delimited string; this function reshapes that string back into the layout expected by `parse_win_event_log` and reuses its parsing and field-mapping logic.
+
+**Parameters:**
+- `field` (required): Name of the field containing the WinCollect-forwarded Windows Event Log text
+- `in_place` (optional, default: `False`): If `True`, replaces the field value with the parsed dictionary and keeps the other event fields (e.g. `@timestamp`). If `False`, returns only the parsed dictionary.
+
+**Input Format:**
+
+Typical WinCollect payload (tabs between top-level fields; section fields packed with double spaces after `Message=`):
+
+```
+<13>Jul 13 15:18:32 HOST.sub.domain.name AgentDevice=WindowsLog	AgentLogFile=Security	PluginVersion=7.3.1.43	Source=Microsoft-Windows-Security-Auditing	Computer=HOST.sub.domain.name	OriginatingComputer=10.10.10.10	User=	Domain=	EventID=4662	EventIDCode=4662	EventType=8	EventCategory=12804	RecordNumber=3703867	TimeGenerated=1783945048	TimeWritten=1783945048	Level=Log Always	Keywords=Audit Success	Task=SE_ADT_OBJECTACCESS_OTHER	Opcode=Info	Message=An operation was performed on an object.  Subject :  Security ID:  NT AUTHORITY\LOCAL SERVICE  Account Name:  LOCAL SERVICE  Account Domain:  NT AUTHORITY  Logon ID:  0x3E5  Object:  Object Server:  LSA  Object Type:  SecretObject  Object Name:  Policy\Secrets\$MACHINE.ACC  Handle ID:  0x27058dfe690  Operation:  Operation Type:  Query  Accesses:  Query secret value       Access Mask:  0x2  Properties:  -  Additional Information:  Parameter 1:  -  Parameter 2:  -
+```
+
+**How it works:**
+- Reshapes the flattened WinCollect line back into the standard Windows Event Log layout
+- Splits the packed `Message=` value into individual fields (including section fields such as `Subject`/`Object`)
+- Ignores free-form message text so it isn't mistaken for fields
+- Delegates to `parse_win_event_log` for the actual parsing and field mapping
+
+**Returns:** Dictionary with parsed event fields. Section fields are mapped to standardized names the same way as `parse_win_event_log`.
+
+**Examples:**
+```python
+# Basic usage
+parse_wincollect_win_event_log(field="log_text")
+
+# Keep event metadata (@timestamp, ...) and lift parsed fields to the top level
+parse_wincollect_win_event_log(field="event.original", in_place=True) | extract(field="event.original")
+
+# In a query chain
+query = """
+parse_wincollect_win_event_log(field="raw_log")
+"""
+```
+
+**Output Example:**
+
+For an object-access event like the input above, the function returns (some fields omitted):
+```python
+{
+    "EventID": "4662",
+    "AgentLogFile": "Security",
+    "Computer": "HOST.sub.domain.name",
+    "Message": "An operation was performed on an object.",
+    "SubjectUserSid": "NT AUTHORITY\\LOCAL SERVICE",
+    "SubjectUserName": "LOCAL SERVICE",
+    "SubjectDomainName": "NT AUTHORITY",
+    "SubjectLogonId": "0x3E5",
+    "ObjectServer": "LSA",
+    "ObjectType": "SecretObject",
+    "ObjectName": "Policy\\Secrets\\$MACHINE.ACC",
+    "HandleId": "0x27058dfe690",
+    "OperationType": "Query",
+    "AccessList": "Query secret value",
+    "AccessMask": "0x2",
+}
+```
+
+**Notes:**
+- Prefer this function for QRadar-forwarded Windows logs; use `parse_win_event_log` for native Event Viewer / Splunk multi-line text
+- Missing fields return an empty dictionary; non-string field values raise `ValueError`
+- Trailing Microsoft explanatory sentences after section fields are dropped so they do not corrupt the last parsed value
 
 ## Query Syntax
 
@@ -426,3 +673,4 @@ result = manager.configured_parser(event, parser_config)
 
 - Python >= 3.10
 - orjson >= 3.9.0
+- xmltodict >= 0.13.0

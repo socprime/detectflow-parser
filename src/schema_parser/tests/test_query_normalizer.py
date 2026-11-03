@@ -175,6 +175,370 @@ class TestParseJson:
         assert result["steps"] == []
 
 
+class TestParseKv:
+    """Tests for parse_kv function normalization"""
+
+    def test_parse_kv_basic(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [{"function_name": "parse_kv", "args": {"field": "raw"}}]
+
+    def test_parse_kv_with_in_place_true(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", in_place=True)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_kv_with_delimiter(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", delimiter="|")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "delimiter": "|"},
+            }
+        ]
+
+    def test_parse_kv_with_tab_escape_delimiter(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", delimiter="\\t")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "delimiter": "\\t"},
+            }
+        ]
+
+    def test_parse_kv_with_whitespace(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv( field = "raw" , in_place = True )'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_kv_with_dotted_field_name(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="event.original")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {"function_name": "parse_kv", "args": {"field": "event.original"}}
+        ]
+
+    def test_parse_kv_reversed_param_order(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(in_place=True, delimiter=" ", field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "in_place": True, "delimiter": " "},
+            }
+        ]
+
+    def test_parse_kv_pipe_delimiter_in_pipeline(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", delimiter="|") | drop(fields="temp")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "delimiter": "|"},
+            },
+            {"function_name": "drop", "args": {"fields": "temp"}},
+        ]
+
+    def test_parse_kv_unknown_param_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_kv(field="raw", unknown="value")')
+        assert result["steps"] == []
+
+    def test_parse_kv_missing_field_rejected(self):
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query("parse_kv(in_place=True)")["steps"] == []
+        assert normalizer.parse_query("parse_kv()")["steps"] == []
+
+    def test_parse_kv_empty_delimiter_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_kv(field="raw", delimiter="")')
+        assert result["steps"] == []
+
+    def test_parse_kv_with_value_delimiter(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", value_delimiter=":")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {"field": "raw", "value_delimiter": ":"},
+            }
+        ]
+
+    def test_parse_kv_with_both_delimiters(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_kv(field="raw", delimiter=" ", value_delimiter=":")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_kv",
+                "args": {
+                    "field": "raw",
+                    "delimiter": " ",
+                    "value_delimiter": ":",
+                },
+            }
+        ]
+
+    def test_parse_kv_empty_value_delimiter_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_kv(field="raw", value_delimiter="")')
+        assert result["steps"] == []
+
+    def test_parse_kv_invalid_quoted_boolean_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_kv(field="raw", in_place="something")')
+        assert result["steps"] == []
+
+
+class TestParseLeef:
+    """Tests for parse_leef function normalization"""
+
+    def test_parse_leef_basic(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [{"function_name": "parse_leef", "args": {"field": "raw"}}]
+
+    def test_parse_leef_with_in_place_true(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="raw", in_place=True)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_leef_with_delimiter(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="raw", delimiter="|")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "delimiter": "|"},
+            }
+        ]
+
+    def test_parse_leef_with_tab_escape_delimiter(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="raw", delimiter="\\t")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "delimiter": "\\t"},
+            }
+        ]
+
+    def test_parse_leef_with_whitespace(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef( field = "raw" , in_place = True )'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_leef_with_dotted_field_name(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="event.original")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {"function_name": "parse_leef", "args": {"field": "event.original"}}
+        ]
+
+    def test_parse_leef_reversed_param_order(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(in_place=True, delimiter=" ", field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "in_place": True, "delimiter": " "},
+            }
+        ]
+
+    def test_parse_leef_pipe_delimiter_in_pipeline(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_leef(field="raw", delimiter="|") | drop(fields="temp")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_leef",
+                "args": {"field": "raw", "delimiter": "|"},
+            },
+            {"function_name": "drop", "args": {"fields": "temp"}},
+        ]
+
+    def test_parse_leef_unknown_param_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_leef(field="raw", unknown="value")')
+        assert result["steps"] == []
+
+    def test_parse_leef_missing_field_rejected(self):
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query("parse_leef(in_place=True)")["steps"] == []
+        assert normalizer.parse_query("parse_leef()")["steps"] == []
+
+    def test_parse_leef_empty_delimiter_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_leef(field="raw", delimiter="")')
+        assert result["steps"] == []
+
+    def test_parse_leef_invalid_quoted_boolean_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_leef(field="raw", in_place="something")')
+        assert result["steps"] == []
+
+
+class TestParseXml:
+    """Tests for parse_xml function normalization"""
+
+    def test_parse_xml_basic(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [{"function_name": "parse_xml", "args": {"field": "raw"}}]
+
+    def test_parse_xml_with_in_place_true(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="raw", in_place=True)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_xml_with_in_place_lowercase_true(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="raw", in_place=true)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_xml_with_in_place_false(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="raw", in_place=False)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": False},
+            }
+        ]
+
+    def test_parse_xml_with_whitespace(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml( field = "raw" , in_place = True )'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_xml_with_dotted_field_name(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="event.raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [{"function_name": "parse_xml", "args": {"field": "event.raw"}}]
+
+    def test_parse_xml_reversed_param_order(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(in_place=True, field="raw")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_xml_quoted_boolean_true(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_xml(field="raw", in_place="true")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_xml",
+                "args": {"field": "raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_xml_unknown_param_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_xml(field="raw", unknown="value")')
+        assert result["steps"] == []
+
+    def test_parse_xml_missing_field_rejected(self):
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query("parse_xml(in_place=True)")["steps"] == []
+        assert normalizer.parse_query("parse_xml()")["steps"] == []
+
+    def test_parse_xml_invalid_quoted_boolean_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_xml(field="raw", in_place="something")')
+        assert result["steps"] == []
+
+
 class TestRegex:
     """Tests for regex function normalization"""
 
@@ -634,6 +998,60 @@ class TestExtract:
         ]
 
 
+class TestListToDict:
+    """Tests for list_to_dict function normalization"""
+
+    def test_list_to_dict_basic(self):
+        normalizer = QueryNormalizer()
+        query = 'list_to_dict(field="Data", key="@Name", value="#text")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "list_to_dict",
+                "args": {"field": "Data", "key": "@Name", "value": "#text"},
+            }
+        ]
+
+    def test_list_to_dict_nested_field(self):
+        normalizer = QueryNormalizer()
+        query = 'list_to_dict(field="Event.EventData.Data", key="@Name", value="#text")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "list_to_dict",
+                "args": {"field": "Event.EventData.Data", "key": "@Name", "value": "#text"},
+            }
+        ]
+
+    def test_list_to_dict_custom_key_and_value(self):
+        normalizer = QueryNormalizer()
+        query = 'list_to_dict(field="attrs", key="name", value="value")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "list_to_dict",
+                "args": {"field": "attrs", "key": "name", "value": "value"},
+            }
+        ]
+
+    def test_list_to_dict_unknown_param_rejected(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query(
+            'list_to_dict(field="Data", key="@Name", value="#text", unknown="x")'
+        )
+        assert result["steps"] == []
+
+    def test_list_to_dict_missing_required_params_rejected(self):
+        normalizer = QueryNormalizer()
+        assert normalizer.parse_query("list_to_dict()")["steps"] == []
+        assert normalizer.parse_query('list_to_dict(field="Data")')["steps"] == []
+        assert normalizer.parse_query('list_to_dict(field="Data", key="@Name")')["steps"] == []
+        assert normalizer.parse_query('list_to_dict(key="@Name", value="#text")')["steps"] == []
+
+
 class TestParseWinEventLog:
     """Tests for parse_win_event_log function normalization"""
 
@@ -660,6 +1078,94 @@ class TestParseWinEventLog:
             {
                 "function_name": "parse_win_event_log",
                 "args": {"field": "log_text"},
+            }
+        ]
+
+    def test_parse_win_event_log_in_place(self):
+        normalizer = QueryNormalizer()
+        result = normalizer.parse_query('parse_win_event_log(field="_raw", in_place=True)')
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_win_event_log",
+                "args": {"field": "_raw", "in_place": True},
+            }
+        ]
+
+    def test_parse_win_event_log_time_params(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_win_event_log(field="_raw", parse_header_time=true, keep="_time,host")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_win_event_log",
+                "args": {"field": "_raw", "parse_header_time": True, "keep": "_time,host"},
+            }
+        ]
+
+    def test_parse_win_event_log_invalid_params(self):
+        normalizer = QueryNormalizer()
+        for query in (
+            'parse_win_event_log(field="_raw", in_place="x")',
+            'parse_win_event_log(field="_raw", parse_header_time="x")',
+            'parse_win_event_log(field="_raw", keep="")',
+            'parse_win_event_log(field="_raw", foo="x")',
+        ):
+            assert normalizer.parse_query(query)["steps"] == []
+
+
+class TestParseWincollectWinEventLog:
+    """Tests for parse_wincollect_win_event_log function normalization"""
+
+    def test_parse_wincollect_win_event_log_basic(self):
+        """Test basic parse_wincollect_win_event_log function"""
+        normalizer = QueryNormalizer()
+        query = 'parse_wincollect_win_event_log(field="log_text")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_wincollect_win_event_log",
+                "args": {"field": "log_text"},
+            }
+        ]
+
+    def test_parse_wincollect_win_event_log_with_whitespace(self):
+        """Test parse_wincollect_win_event_log with extra whitespace"""
+        normalizer = QueryNormalizer()
+        query = 'parse_wincollect_win_event_log( field = "log_text" )'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_wincollect_win_event_log",
+                "args": {"field": "log_text"},
+            }
+        ]
+
+    def test_parse_wincollect_win_event_log_does_not_shadow_parse_win_event_log(self):
+        """A parse_win_event_log query part must not be normalized as parse_wincollect_win_event_log"""
+        normalizer = QueryNormalizer()
+        query = 'parse_win_event_log(field="log_text")'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_win_event_log",
+                "args": {"field": "log_text"},
+            }
+        ]
+
+    def test_parse_wincollect_win_event_log_in_place(self):
+        normalizer = QueryNormalizer()
+        query = 'parse_wincollect_win_event_log(field="event.original", in_place=True)'
+        result = normalizer.parse_query(query)
+
+        assert result["steps"] == [
+            {
+                "function_name": "parse_wincollect_win_event_log",
+                "args": {"field": "event.original", "in_place": True},
             }
         ]
 
@@ -713,6 +1219,8 @@ class TestMultipleFunctions:
         normalizer = QueryNormalizer()
         query = (
             'parse_json(field="raw", in_place=True)'
+            ' | parse_kv(field="raw")'
+            ' | parse_leef(field="raw")'
             ' | regex(field="raw", pattern="^test")'
             ' | rename(from="old", to="new")'
             ' | drop(fields="temp")'
@@ -722,10 +1230,12 @@ class TestMultipleFunctions:
         )
         result = normalizer.parse_query(query)
 
-        assert len(result["steps"]) == 7
+        assert len(result["steps"]) == 9
         names = [s["function_name"] for s in result["steps"]]
         assert names == [
             "parse_json",
+            "parse_kv",
+            "parse_leef",
             "regex",
             "rename",
             "drop",
