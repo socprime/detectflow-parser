@@ -371,3 +371,42 @@ def test_field_without_section_parsing_in_event_4739():
         data={"log_text": log_content}, field="log_text"
     )
     assert parsed_log == expected_result
+
+
+def test_parse_header_time_adds_time_created():
+    log_content = "10/12/2026 03:39:18 PM\nEventCode=4703"
+    parsed_log = ParseWinEventLogFunction().execute(
+        data={"log_text": log_content}, field="log_text", parse_header_time=True
+    )
+    assert parsed_log == {"EventID": "4703", "TimeCreated": "2026-10-12T15:39:18"}
+
+
+def test_parse_header_time_skips_unrecognized_timestamp():
+    log_content = "not a timestamp\nLogName=Security\nEventCode=4648"
+    parsed_log = ParseWinEventLogFunction().execute(
+        data={"log_text": log_content}, field="log_text", parse_header_time=True
+    )
+    assert parsed_log == {"EventID": "4648", "LogName": "Security"}
+
+
+def test_keep_copies_fields_to_result():
+    data = {
+        "_time": 1791808758,
+        "host": "SRV",
+        "index": "wineventlog",
+        "_raw": "10/12/2026 03:39:18 PM\nEventCode=4703",
+    }
+    parsed_log = ParseWinEventLogFunction().execute(data=data, field="_raw", keep="_time, host")
+    assert parsed_log == {"EventID": "4703", "_time": 1791808758, "host": "SRV"}
+
+
+def test_keep_ignores_missing_and_empty_fields():
+    data = {"_time": 1791808758, "_raw": "10/12/2026 03:39:18 PM\nEventCode=4703"}
+    parsed_log = ParseWinEventLogFunction().execute(data=data, field="_raw", keep="_time,,missing")
+    assert parsed_log == {"EventID": "4703", "_time": 1791808758}
+
+
+def test_in_place_keeps_other_fields():
+    data = {"_time": 1791808758, "host": "SRV", "_raw": "10/12/2026 03:39:18 PM\nEventCode=4703"}
+    result = ParseWinEventLogFunction().execute(data=data, field="_raw", in_place=True)
+    assert result == {"_time": 1791808758, "host": "SRV", "_raw": {"EventID": "4703"}}

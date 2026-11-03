@@ -15,18 +15,104 @@ class QueryNormalizer:
     def __init__(self):
         self.normalize_functions = {
             "parse_json": self.json_normalize,
+            "parse_kv": self.parse_kv_normalize,
+            "parse_leef": self.parse_leef_normalize,
+            "parse_xml": self.parse_xml_normalize,
             "regex": self.regex_normalize,
             "rename": self.rename_normalize,
             "drop": self.drop_normalize,
             "set": self.set_normalize,
             "parse_win_event_log": self.parse_win_event_log_normalize,
+            "parse_wincollect_win_event_log": self.parse_wincollect_win_event_log_normalize,
             "extract": self.extract_normalize,
+            "list_to_dict": self.list_to_dict_normalize,
         }
 
     def json_normalize(self, query_part: str) -> dict[str, Any] | None:
         if not query_part.strip().startswith("parse_json"):
             return None
         params = extract_params(query_part.strip(), "parse_json")
+        if params is None:
+            return None
+        allowed_params = {"field", "in_place"}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {"field": params["field"]}
+        if "in_place" in params:
+            value = params["in_place"]
+            if isinstance(value, bool):
+                result["in_place"] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result["in_place"] = value.lower() == "true"
+            else:
+                return None
+        return result
+
+    def parse_kv_normalize(self, query_part: str) -> dict[str, Any] | None:
+        if not query_part.strip().startswith("parse_kv"):
+            return None
+        params = extract_params(query_part.strip(), "parse_kv")
+        if params is None:
+            return None
+        allowed_params = {"field", "in_place", "delimiter", "value_delimiter"}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {"field": params["field"]}
+        if "in_place" in params:
+            value = params["in_place"]
+            if isinstance(value, bool):
+                result["in_place"] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result["in_place"] = value.lower() == "true"
+            else:
+                return None
+        if "delimiter" in params:
+            value = params["delimiter"]
+            if not isinstance(value, str) or value == "":
+                return None
+            result["delimiter"] = value
+        if "value_delimiter" in params:
+            value = params["value_delimiter"]
+            if not isinstance(value, str) or value == "":
+                return None
+            result["value_delimiter"] = value
+        return result
+
+    def parse_leef_normalize(self, query_part: str) -> dict[str, Any] | None:
+        if not query_part.strip().startswith("parse_leef"):
+            return None
+        params = extract_params(query_part.strip(), "parse_leef")
+        if params is None:
+            return None
+        allowed_params = {"field", "in_place", "delimiter"}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {"field": params["field"]}
+        if "in_place" in params:
+            value = params["in_place"]
+            if isinstance(value, bool):
+                result["in_place"] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result["in_place"] = value.lower() == "true"
+            else:
+                return None
+        if "delimiter" in params:
+            value = params["delimiter"]
+            if not isinstance(value, str) or value == "":
+                return None
+            result["delimiter"] = value
+        return result
+
+    def parse_xml_normalize(self, query_part: str) -> dict[str, Any] | None:
+        if not query_part.strip().startswith("parse_xml"):
+            return None
+        params = extract_params(query_part.strip(), "parse_xml")
         if params is None:
             return None
         allowed_params = {"field", "in_place"}
@@ -119,18 +205,52 @@ class QueryNormalizer:
         return None
 
     def parse_win_event_log_normalize(self, query_part: str) -> dict[str, Any] | None:
-        # Match parse_win_event_log with field parameter
-        # Handles: parse_win_event_log(field="log_text")
-        # Also handles whitespace around = and parentheses
-        regex = (
-            r"parse_win_event_log\s*\("
-            r"\s*field\s*=\s*\"(?P<field>[a-zA-Z0-9_\.\-]*)\""
-            r"\s*\)"
+        return self._field_in_place_normalize(
+            query_part,
+            "parse_win_event_log",
+            bool_params=("in_place", "parse_header_time"),
+            str_params=("keep",),
         )
-        match = re.search(regex, query_part)
-        if match:
-            return {"field": match.group("field")}
-        return None
+
+    def parse_wincollect_win_event_log_normalize(self, query_part: str) -> dict[str, Any] | None:
+        return self._field_in_place_normalize(query_part, "parse_wincollect_win_event_log")
+
+    @staticmethod
+    def _field_in_place_normalize(
+        query_part: str,
+        func_name: str,
+        bool_params: tuple[str, ...] = ("in_place",),
+        str_params: tuple[str, ...] = (),
+    ) -> dict[str, Any] | None:
+        if not query_part.strip().startswith(func_name):
+            return None
+        params = extract_params(query_part.strip(), func_name)
+        if params is None:
+            return None
+        allowed_params = {"field", *bool_params, *str_params}
+        if any(key not in allowed_params for key in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        result: dict[str, Any] = {"field": params["field"]}
+        for name in bool_params:
+            if name not in params:
+                continue
+            value = params[name]
+            if isinstance(value, bool):
+                result[name] = value
+            elif isinstance(value, str) and value.lower() in ("true", "false"):
+                result[name] = value.lower() == "true"
+            else:
+                return None
+        for name in str_params:
+            if name not in params:
+                continue
+            value = params[name]
+            if not isinstance(value, str) or value == "":
+                return None
+            result[name] = value
+        return result
 
     def extract_normalize(self, query_part: str) -> dict[str, Any] | None:
         # Match extract with field parameter
@@ -145,6 +265,27 @@ class QueryNormalizer:
         if match:
             return {"field": match.group("field")}
         return None
+
+    def list_to_dict_normalize(self, query_part: str) -> dict[str, Any] | None:
+        if not query_part.strip().startswith("list_to_dict"):
+            return None
+        params = extract_params(query_part.strip(), "list_to_dict")
+        if params is None:
+            return None
+        allowed_params = {"field", "key", "value"}
+        if any(param not in allowed_params for param in params):
+            return None
+        if "field" not in params or not isinstance(params["field"], str):
+            return None
+        if "key" not in params or not isinstance(params["key"], str) or params["key"] == "":
+            return None
+        if "value" not in params or not isinstance(params["value"], str) or params["value"] == "":
+            return None
+        return {
+            "field": params["field"],
+            "key": params["key"],
+            "value": params["value"],
+        }
 
     def normalize_query_part(self, query_part: str) -> tuple[str, dict[str, Any] | None]:
         for function_name, normalize_function in self.normalize_functions.items():

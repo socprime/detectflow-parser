@@ -1,7 +1,7 @@
 """
 Constants defining supported and unsupported Sigma features.
 
-Based on apache-flink-tdm sigma_parser.py validation logic.
+Based on detectflow-matchnode sigma_parser.py validation logic.
 
 Supported features:
 - Modifiers: contains, startswith, endswith, all (combinable)

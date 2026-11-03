@@ -1,8 +1,11 @@
 import csv
 import re
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+from schema_parser.core.utils import get_value, set_value
 
 from ..base import BaseFunction
 
@@ -44,6 +47,8 @@ FIELDS_MAPPING_BY_EVENT_ID = load_field_mapping()
 EVENT_ID_PATTERN = re.compile(r"EventCode\s*=\s*(\d+)")
 KV_PATTERN = re.compile(r"^\s*([^:=\n]+?)\s*[:=]\s*(.*)$")
 SECTION_PATTERN = re.compile(r"^([a-zA-Z \(\)]+?):$")
+# Splunk WinEventLog header line, e.g. "10/12/2026 03:39:18 PM" (host local time, no timezone)
+TIMESTAMP_FORMAT = "%m/%d/%Y %I:%M:%S %p"
 
 
 class ParseWinEventLogFunction(BaseFunction):
@@ -85,9 +90,28 @@ class ParseWinEventLogFunction(BaseFunction):
 
     """
 
-    def execute(self, data: dict[str, Any], field: str) -> dict[str, Any]:
-        log_text = data[field]
-        event_id = self._get_event_id(log_text)
+    def execute(
+        self,
+        data: dict[str, Any],
+        field: str,
+        in_place: bool = False,
+        parse_header_time: bool = False,
+        keep: str | None = None,
+    ) -> dict[str, Any]:
+        parsed = self._parse(data[field], parse_header_time)
+        for keep_field in (keep or "").split(","):
+            keep_field = keep_field.strip()
+            value = get_value(data, keep_field) if keep_field else None
+            if value is not None:
+                set_value(parsed, keep_field, value)
+        if in_place:
+            set_value(data, field, parsed)
+            return data
+        return parsed
+
+    @classmethod
+    def _parse(cls, log_text: str, parse_header_time: bool) -> dict[str, Any]:
+        event_id = cls._get_event_id(log_text)
 
         lines = log_text.strip().split("\n")
         if not lines or not lines[0]:
@@ -97,10 +121,22 @@ class ParseWinEventLogFunction(BaseFunction):
         if event_id:
             state.log_json["EventID"] = event_id
 
-        for line in lines[1:]:  # Skip the first line (timestamp)
-            self._process_line(line, state)
+        time_created = cls._parse_timestamp(lines[0]) if parse_header_time else None
+        if time_created:
+            state.log_json["TimeCreated"] = time_created
+
+        for line in lines[1:]:  # The first line is the timestamp
+            cls._process_line(line, state)
 
         return state.log_json
+
+    @staticmethod
+    def _parse_timestamp(line: str) -> str | None:
+        """Returns the header timestamp as naive ISO 8601, or None if it is not recognized."""
+        try:
+            return datetime.strptime(line.strip(), TIMESTAMP_FORMAT).isoformat()
+        except ValueError:
+            return None
 
     @staticmethod
     def _get_event_id(log_text: str) -> str | None:
